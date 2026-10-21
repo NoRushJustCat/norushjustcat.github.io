@@ -1,0 +1,9 @@
+{
+  "comment": "Liste des projets affichés, dans l'ordre. Pour AJOUTER un projet : copier _template.json, renommer le fichier, remplir les champs, puis ajouter son nom ici. Pour SUPPRIMER : retirer la ligne (et le fichier). Les fichiers qui commencent par _ (comme celui-ci et _template.json) sont ignorés.",
+  "fichiers": [
+    "01-simulateur-vol.json",
+    "02-traffic-balisage.json",
+    "03-ia-quetes.json",
+    "04-enqueteur-accident.json"
+  ]
+}

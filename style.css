@@ -50,6 +50,20 @@ img {
   margin: 0 auto;
 }
 
+/* ---------- ICÔNES SVG (fichiers assets/icons) ---------- */
+.icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.loader-plane .icon { width: 48px; height: 48px; }
+.flight-tracker-plane .icon { width: 100%; height: 100%; }
+.point-icon-box .icon { width: 24px; height: 24px; }
+.link-item .icon { width: 20px; height: 20px; }
+
 /* ---------- TYPOGRAPHIE ---------- */
 .section-title {
   font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -203,6 +217,13 @@ img {
 }
 
 /* ---------- CURSEUR PERSONNALISÉ ---------- */
+/* Le curseur natif est masqué uniquement quand le curseur custom
+   est réellement actif (voir initCursor() dans script.js). */
+body.cursor-active,
+body.cursor-active * {
+  cursor: none !important;
+}
+
 .custom-cursor {
   position: fixed;
   top: 0;
@@ -212,8 +233,12 @@ img {
   pointer-events: none;
   z-index: 9999;
   display: none; /* activé par JS pour pointeurs fins */
+  opacity: 0;    /* apparaît au premier mouvement de souris */
+  transition: opacity 0.18s ease;
 }
 
+/* Aucune transition sur transform : le point doit suivre la souris
+   sans le moindre décalage (voir onMouseMove dans script.js). */
 .cursor-dot {
   position: absolute;
   top: 0;
@@ -724,43 +749,73 @@ body.cursor-active .cursor-ring.hovered {
   }
 }
 
-/* ---------- PARCOURS / TIMELINE ---------- */
-.timeline-wrapper {
+/* ---------- PARCOURS / TIMELINE (horizontale) ---------- */
+.timeline-pin {
   position: relative;
-  margin-top: 2rem;
+  margin: 2rem -1rem 0; /* annule le padding horizontal de .section */
+}
+
+/* Repli (sans JS ou mouvement réduit) : défilement horizontal natif */
+.timeline-sticky {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-color: var(--accent-cyan) rgba(255, 255, 255, 0.08);
+}
+
+.timeline-track {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: clamp(1.75rem, 3vw, 3rem);
+  width: max-content;
+  padding-inline: max(1rem, calc((100vw - 1120px) / 2));
+  will-change: transform;
+}
+
+/* Mode épinglé (ajouté par script.js) : le scroll vertical
+   pilote le défilement horizontal de la chronologie. */
+.timeline-pin.is-pinned .timeline-sticky {
+  position: sticky;
+  top: 64px; /* hauteur de l’en-tête */
+  height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  scroll-snap-type: none;
 }
 
 .timeline-line {
   position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, transparent 0%, var(--accent-cyan) 50%, transparent 100%);
-  transform: translateX(-50%);
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  transform: translateY(-50%);
+  background: rgba(69, 214, 232, 0.18);
 }
 
 .timeline-progress {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  width: 3px;
   background: var(--accent-cyan);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.6s ease;
-}
-
-.timeline-list {
-  position: relative;
-  z-index: 10;
+  box-shadow: 0 0 12px rgba(69, 214, 232, 0.55);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.2s linear;
 }
 
 .timeline-row {
   position: relative;
-  width: 100%;
-  padding: 2rem 0;
+  flex: 0 0 auto;
+  width: clamp(300px, 30vw, 400px);
+  padding-top: 72px;
+  scroll-snap-align: start;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -771,41 +826,20 @@ body.cursor-active .cursor-ring.hovered {
   transform: translateY(0);
 }
 
-.timeline-row.timeline-left .timeline-marker {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.timeline-row.timeline-right .timeline-marker {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .timeline-marker {
   position: absolute;
-  top: 2.5rem;
-  left: 50%;
+  top: 30px; /* centre du marqueur aligné sur la ligne (40px) */
+  left: 0;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background: var(--bg-space);
   border: 3px solid var(--accent-cyan);
-  transform: translateX(-50%);
   box-shadow: 0 0 0 4px rgba(69, 214, 232, 0.2);
 }
 
 .timeline-content {
-  max-width: 480px;
-  width: 90%;
-  margin: 0 auto;
-}
-
-.timeline-row.timeline-left .timeline-content {
-  padding-left: 1rem;
-}
-
-.timeline-row.timeline-right .timeline-content {
-  padding-left: 1rem;
+  width: 100%;
 }
 
 .timeline-top {
@@ -870,23 +904,44 @@ body.cursor-active .cursor-ring.hovered {
   background: rgba(255, 255, 255, 0.03);
 }
 
-@media (min-width: 768px) {
-  .timeline-row.timeline-left {
-    padding-left: 62px;
-    text-align: left;
+/* Invite de défilement horizontal */
+.timeline-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  background: rgba(11, 21, 36, 0.92);
+  color: var(--text-muted);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: opacity 0.35s ease;
+  z-index: 5;
+}
+
+.timeline-hint svg {
+  color: var(--accent-cyan);
+}
+
+.timeline-hint.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .timeline-row {
+    width: min(78vw, 340px);
   }
-  .timeline-row.timeline-right {
-    padding-right: 62px;
-    text-align: left;
-    margin-left: auto;
-  }
-  .timeline-row.timeline-right .timeline-content {
-    margin-left: auto;
-    margin-right: 0;
-  }
-  .timeline-row.timeline-right .timeline-period {
-    margin-left: 0;
-    margin-right: auto;
+  .timeline-summary {
+    font-size: 0.85rem;
   }
 }
 
@@ -922,6 +977,33 @@ body.cursor-active .cursor-ring.hovered {
   border-color: var(--accent-cyan);
 }
 
+/* Avis affiché quand les fichiers .json de projets sont illisibles
+   (double-clic sur index.html → file://, requêtes bloquées par Chrome) */
+.projects-notice {
+  margin: -1.2rem auto 2.2rem;
+  max-width: 62ch;
+  text-align: center;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--accent-amber);
+  background: rgba(255, 180, 84, 0.06);
+  border: 1px dashed rgba(255, 180, 84, 0.35);
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+}
+
+.projects-notice[hidden] {
+  display: none;
+}
+
+.projects-notice code {
+  color: var(--text-main);
+  background: rgba(240, 246, 252, 0.06);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
+
 .projects-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -943,6 +1025,12 @@ body.cursor-active .cursor-ring.hovered {
   border-color: var(--accent-cyan);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
   transform: translateY(-6px);
+}
+
+/* Carte sans image (champ « image » vide dans le JSON) : elle garde sa
+   hauteur naturelle au lieu d’être étirée à celle de la rangée. */
+.project-card.no-media {
+  align-self: start;
 }
 
 .project-card .project-media {

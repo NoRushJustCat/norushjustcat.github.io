@@ -49,15 +49,17 @@
 1. **Grille Radar / Horizon :** Motifs SVG d'arrière-plan avec cercles concentriques et radiaux très estompés (`opacity: 0.04`).
 2. **Badge d'état :** Puce lumineuse avec pulsation verte (`box-shadow: 0 0 10px rgba(60, 208, 112, 0.6)`).
 3. **Cartes Projets :** Angle biseauté subtil ou coins adoucis (`border-radius: 12px`), bordure fine réactive au survol et effet tilt 3D géré au pointeur.
-4. **Timeline Altimétrique :** Trait vertical continu reliant les balises de vol (BIA, brevets, stages, baptêmes de l'air), avec balise avion qui descend au scroll.
-5. **Barres de Télémétrie :** Jauges horizontales progressives avec indicateur de pourcentage façon instrument numérique.
+4. **Chronologie horizontale :** Trait continu reliant les balises de vol (BIA, brevets, stages, baptêmes de l'air). La section se fige à l'écran : le scroll vertical (vers le bas) fait glisser la chronologie vers la droite ; repli en défilement horizontal natif (mouvement réduit / sans JS).
+5. **Icônes :** Fichiers SVG de `assets/icons/` (avion, logo Roblox Studio, code, outils, GitHub, Discord) chargés en `<img>` — pas de `mask-image`, pour rester affichables en ouverture locale (`file://`).
+6. **Barres de Télémétrie :** Jauges horizontales progressives avec indicateur de pourcentage façon instrument numérique.
 
 ---
 
 ## 5. Principes d'Animation & Performance
 - **Propriétés autorisées pour l'animation :** Uniquement `transform` et `opacity` afin d'exploiter l'accélération matérielle (GPU) sans déclencher de reflow/repaint.
 - **Défilement & Révélation :** Utilisation d'`IntersectionObserver` pour déclencher les apparitions une seule fois avec un seuil de 15%.
-- **Curseur personnalisé :** Activé uniquement sur les périphériques disposant d'un pointeur précis (`@media (hover: hover) and (pointer: fine)`). Déconnecté sur écran tactile.
+- **Curseur personnalisé :** Activé uniquement sur les périphériques disposant d'un pointeur précis (`@media (hover: hover) and (pointer: fine)`). Déconnecté sur écran tactile. Le curseur natif est masqué (`body.cursor-active`) pour ne laisser que le curseur custom.
+- **Année automatique :** Les éléments `[data-year]` (badge hero, pied de page) sont renseignés au chargement via `new Date().getFullYear()`.
 - **Effet de tilt 3D :** Calculé sur `pointermove` avec `requestAnimationFrame` pour éviter les saccades sur PC modeste.
 - **Trajectoire d'avion :** Avion SVG se déplaçant sur le scroll sans bloquer le fil d'exécution principal.
 - **Accessibilité motrice (`prefers-reduced-motion`) :**
@@ -70,3 +72,46 @@
 - Focus visuel distinct pour la navigation clavier (`:focus-visible`).
 - Balises ARIA pertinentes (`aria-label`, `aria-hidden` sur les icônes décoratives, `role="region"`).
 - Absence de dépendance lourde : fonctionnel à 100% en local hors-ligne en double-cliquant sur `index.html`.
+
+---
+
+## 7. Contenu des Projets (fichiers `.json` séparés)
+
+Les projets ne sont plus écrits dans `script.js` : chacun vit dans son propre fichier JSON.
+
+### 7.1 Structure
+```
+assets/projects/
+  _index.json          Liste des projets affichés (et leur ordre)
+  _template.json       Modèle à copier — jamais affiché (commence par « _ »)
+  01-simulateur-vol.json
+  02-traffic-balisage.json
+  …                    Un fichier = un projet, librement ajouté ou supprimé
+```
+
+### 7.2 Champs d'un projet
+| Champ | Obligatoire | Rôle |
+| :--- | :--- | :--- |
+| `title` | **oui** | Titre de la carte |
+| `category` | non (`divers`) | Clé de l'onglet de filtre : `roblox`, `aviation`, `web`, `divers`… |
+| `description` | non | Texte de la carte |
+| `tags` | non (`[]`) | Tableau de chaînes affichées sous la carte |
+| `image` | non | Chemin relatif de l'image ; si vide, la carte s'affiche sans visuel |
+| `link` / `linkText` | non | URL du projet et libellé du lien |
+| `badge` | non | Étiquette en haut à droite du visuel |
+| `id` | non | Identifiant ; déduit du titre s'il est absent |
+
+### 7.3 Ajout / suppression
+1. **Ajouter** : copier `_template.json` vers `05-mon-projet.json`, remplir les champs, ajouter `"05-mon-projet.json"` dans `_index.json`.
+2. **Supprimer** : retirer la ligne dans `_index.json` (et, si on veut, le fichier JSON).
+3. Les onglets de filtre sont **générés automatiquement** à partir des catégories présentes : un projet en `"category": "web"` crée l'onglet « Web ».
+
+### 7.4 Repli hors-ligne (contrainte double-clic)
+Chrome interdit toute requête vers un fichier local en `file://` (origine `null`, politique CORS) : `fetch()` sur les `.json` échoue donc en double-clic sur `index.html`.
+
+- **En double-clic** : la section Projets affiche les projets de secours (`PROJETS_DE_SECOURS` dans `script.js`, copie des mêmes données) et un bandeau ambre explique la situation.
+- **Via un serveur local** (`./demarrer.sh` sous Linux/macOS, `demarrer.bat` sous Windows, soit `python3 -m http.server`) ou une fois **hébergé en ligne**, les `.json` se chargent et les projets personnels s'affichent.
+- Un fichier cassé ou absent n'empêche pas les autres : il est signalé dans la console et ignoré.
+- Tout texte issu des JSON est échappé (`escapeHtml` / `escapeAttr`) avant injection dans le DOM.
+
+---

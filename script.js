@@ -9,10 +9,24 @@
   'use strict';
 
   // ------------------------------------------------------------------
-  // 1. DONNÉES DES PROJETS
-  // Modifier ce tableau pour ajouter/supprimer un projet facilement.
+  // 1. DONNÉES DES PROJETS (fichiers .json séparés)
+  //
+  // → Ajouter un projet : copier assets/projects/_template.json vers un
+  //   nouveau fichier (ex. 05-mon-projet.json), remplir les champs, puis
+  //   ajouter son nom dans assets/projects/_index.json.
+  // → Supprimer un projet : retirer sa ligne dans _index.json (et le fichier).
+  // → Les fichiers qui commencent par « _ » (template, index) sont ignorés.
+  //
+  // PROJETS_DE_SECOURS : copie des mêmes projets, intégrée au site.
+  // Elle s'affiche uniquement si les .json ne peuvent pas être lus, c'est-à-
+  // dire en double-clic sur index.html (file://) où Chrome bloque les
+  // requêtes vers des fichiers locaux. Un serveur local (./demarrer.sh)
+  // ou l'hébergement en ligne suffit à activer les .json.
   // ------------------------------------------------------------------
-  const PROJECTS = [
+  const PROJECTS_DIR = 'assets/projects/';
+  const PROJECTS_INDEX = '_index.json';
+
+  const PROJETS_DE_SECOURS = [
     {
       id: 'roblox-1',
       category: 'roblox',
@@ -58,6 +72,14 @@
       badge: 'AVIATION • WEB'
     }
   ];
+
+  // Libellés des onglets de filtre (toute autre catégorie est déduite seule)
+  const LIBELLES_CATEGORIES = {
+    roblox: 'Roblox Studio',
+    aviation: 'Aviation Web',
+    web: 'Web',
+    divers: 'Divers'
+  };
 
   // ------------------------------------------------------------------
   // 2. ÉCRAN DE CHARGEMENT (LOADER)
@@ -188,33 +210,75 @@
   let isPointerFine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   let cursorX = 0;
   let cursorY = 0;
-  let dotX = 0;
-  let dotY = 0;
+  let ringX = 0;
+  let ringY = 0;
+  let ringAnimating = false;
+  let cursorShown = false;
+
+  // Légère traînée de l’anneau seulement (0 = collé, 1 = figé).
+  const RING_EASE = 0.4;
+  const RING_SNAP = 0.5;
 
   function initCursor() {
     if (!cursor || !cursorDot || !cursorRing) return;
     if (isPointerFine && !reducedMotion) {
+      // Masque le curseur natif (le curseur custom prend le relais)
+      document.body.classList.add('cursor-active');
       cursor.style.display = 'block';
       document.addEventListener('mousemove', onMouseMove);
+      // Masque le curseur quand la souris quitte la fenêtre
+      window.addEventListener('mouseout', (e) => {
+        if (e.relatedTarget === null) hideCursor();
+      });
       setupCursorHover();
-      animateCursor();
     }
   }
 
   function onMouseMove(e) {
     cursorX = e.clientX;
     cursorY = e.clientY;
+
+    // Le point est collé à la souris : appliqué dans l’événement,
+    // aucune interpolation → aucune latence perçue.
+    cursorDot.style.transform =
+      'translate3d(' + cursorX + 'px, ' + cursorY + 'px, 0) translate(-50%, -50%)';
+
+    if (!cursorShown) {
+      cursorShown = true;
+      cursor.style.opacity = '1';
+    }
+
+    if (!ringAnimating) {
+      ringAnimating = true;
+      window.requestAnimationFrame(animateRing);
+    }
   }
 
-  function animateCursor() {
-    // interpolation douce (lerp)
-    dotX += (cursorX - dotX) * 0.18;
-    dotY += (cursorY - dotY) * 0.18;
+  function hideCursor() {
+    if (!cursorShown) return;
+    cursorShown = false;
+    cursor.style.opacity = '0';
+  }
 
-    cursorDot.style.transform = `translate(${dotX - 4}px, ${dotY - 4}px)`;
-    cursorRing.style.transform = `translate(${dotX - 16}px, ${dotY - 16}px)`;
+  function animateRing() {
+    const dx = cursorX - ringX;
+    const dy = cursorY - ringY;
 
-    requestAnimationFrame(animateCursor);
+    // Traînée très légère, qui s’arrête dès que l’anneau est arrivé
+    // (pas de boucle rAF permanente).
+    if (Math.abs(dx) < RING_SNAP && Math.abs(dy) < RING_SNAP) {
+      ringX = cursorX;
+      ringY = cursorY;
+      ringAnimating = false;
+    } else {
+      ringX += dx * RING_EASE;
+      ringY += dy * RING_EASE;
+    }
+
+    cursorRing.style.transform =
+      'translate3d(' + ringX + 'px, ' + ringY + 'px, 0) translate(-50%, -50%)';
+
+    if (ringAnimating) window.requestAnimationFrame(animateRing);
   }
 
   function setupCursorHover() {
@@ -491,38 +555,138 @@
   }
 
   // ------------------------------------------------------------------
-  // 12. GRILLE DES PROJETS (injection DOM + filtre)
+  // 12. GRILLE DES PROJETS (fichiers .json → injection DOM + onglets)
   // ------------------------------------------------------------------
+
+  // Un texte JSON est réinjecté dans le HTML : on échappe les caractères
+  // risqués pour éviter qu’un « < » ou une accolade casse l’affichage.
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = (text === null || text === undefined) ? '' : String(text);
+    return div.innerHTML;
+  }
+
+  // Idem pour les attributs (les guillemets doivent être protégés aussi).
+  function escapeAttr(text) {
+    return escapeHtml(text).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // Complète/valide un projet lu dans un JSON : champs absents, mauvais
+  // types, etc. Renvoie null si le projet est inexploitable.
+  function normaliserProjet(brut, source) {
+    if (!brut || typeof brut !== 'object' || Array.isArray(brut)) {
+      console.warn('[projets] ' + source + ' : pas un objet JSON, projet ignoré.');
+      return null;
+    }
+
+    const titre = typeof brut.title === 'string' ? brut.title.trim() : '';
+    if (!titre) {
+      console.warn('[projets] ' + source + ' : champ « title » manquant, projet ignoré.');
+      return null;
+    }
+
+    return {
+      id: (typeof brut.id === 'string' && brut.id.trim())
+        ? brut.id.trim()
+        : titre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+      category: (typeof brut.category === 'string' && brut.category.trim())
+        ? brut.category.trim().toLowerCase()
+        : 'divers',
+      title: titre,
+      description: (typeof brut.description === 'string') ? brut.description : '',
+      tags: Array.isArray(brut.tags)
+        ? brut.tags.filter(t => typeof t === 'string' && t.trim()).map(t => t.trim())
+        : [],
+      image: (typeof brut.image === 'string') ? brut.image.trim() : '',
+      link: (typeof brut.link === 'string' && brut.link.trim()) ? brut.link.trim() : '#',
+      linkText: (typeof brut.linkText === 'string' && brut.linkText.trim())
+        ? brut.linkText.trim()
+        : 'Voir le projet',
+      badge: (typeof brut.badge === 'string') ? brut.badge.trim() : ''
+    };
+  }
+
+  // Lecture de assets/projects/ : l’index liste les fichiers, puis chaque
+  // fichier est lu et normalisé. Rejette si tout est inaccessible.
+  async function chargerProjets() {
+    const reponseIndex = await fetch(PROJECTS_DIR + PROJECTS_INDEX, { cache: 'no-store' });
+    if (!reponseIndex.ok) {
+      throw new Error(PROJECTS_INDEX + ' introuvable (HTTP ' + reponseIndex.status + ')');
+    }
+
+    const index = await reponseIndex.json();
+    let fichiers = Array.isArray(index) ? index : (index && index.fichiers);
+    if (!Array.isArray(fichiers)) {
+      throw new Error('_index.json invalide : tableau « fichiers » attendu.');
+    }
+
+    // Les fichiers commençant par « _ » ne sont pas des projets
+    // (_index.json, _template.json).
+    fichiers = fichiers.filter(f =>
+      typeof f === 'string' && f.trim() && f.trim().charAt(0) !== '_');
+
+    // Un fichier cassé n’empêche pas les autres d’être affichés.
+    const lus = await Promise.all(fichiers.map(async (fichier) => {
+      try {
+        const reponse = await fetch(PROJECTS_DIR + fichier, { cache: 'no-store' });
+        if (!reponse.ok) throw new Error('HTTP ' + reponse.status);
+        return normaliserProjet(await reponse.json(), fichier);
+      } catch (erreur) {
+        console.warn('[projets] ' + fichier + ' illisible : ' + erreur.message);
+        return null;
+      }
+    }));
+
+    const projets = lus.filter(Boolean);
+    if (!projets.length) throw new Error('aucun projet valide dans ' + PROJECTS_DIR);
+    return projets;
+  }
+
+  // Libellé d’un onglet : table de correspondance, sinon catégorie déduite.
+  function libelleCategorie(categorie) {
+    if (LIBELLES_CATEGORIES[categorie]) return LIBELLES_CATEGORIES[categorie];
+    return categorie.charAt(0).toUpperCase() + categorie.slice(1);
+  }
+
   function initProjects() {
     const container = document.getElementById('projects-container');
     if (!container) return;
+
+    let projets = PROJETS_DE_SECOURS;
 
     function renderProjects(filter) {
       container.innerHTML = '';
 
       const filtered = filter === 'all'
-        ? PROJECTS
-        : PROJECTS.filter(p => p.category === filter);
+        ? projets
+        : projets.filter(p => p.category === filter);
 
       filtered.forEach(project => {
         const card = document.createElement('article');
         card.className = 'project-card';
         card.setAttribute('data-reveal', '');
 
+        // L’image et le badge sont facultatifs dans le JSON
+        if (!project.image) card.classList.add('no-media');
+
+        const media = project.image
+          ? `<div class="project-media" aria-hidden="true">
+               <img src="${escapeAttr(project.image)}" alt="${escapeAttr(project.title)}" loading="lazy" width="800" height="450">
+               ${project.badge ? `<span class="project-badge">${escapeHtml(project.badge)}</span>` : ''}
+             </div>`
+          : '';
+
         card.innerHTML = `
-          <div class="project-media" aria-hidden="true">
-            <img src="${project.image}" alt="${project.title}" loading="lazy" width="800" height="450">
-            <span class="project-badge">${project.badge}</span>
-          </div>
+          ${media}
           <div class="project-info">
-            <h3>${project.title}</h3>
-            <p>${project.description}</p>
+            <h3>${escapeHtml(project.title)}</h3>
+            <p>${escapeHtml(project.description)}</p>
             <div class="project-tags">
               ${project.tags.map(tag => '<span class="tag">' + escapeHtml(tag) + '</span>').join('')}
             </div>
             <div class="project-footer">
-              <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">
-                ${project.linkText} <span>→</span>
+              <a href="${escapeAttr(project.link)}" class="project-link" target="_blank" rel="noopener noreferrer">
+                ${escapeHtml(project.linkText)} <span>→</span>
               </a>
             </div>
           </div>
@@ -532,30 +696,154 @@
       });
     }
 
-    const tabs = document.querySelectorAll('.filter-tab');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        renderProjects(tab.getAttribute('data-filter'));
+    // Les onglets de filtre sont générés à partir des catégories réelles :
+    // un nouveau projet apporte automatiquement son onglet.
+    function renderOnglets() {
+      const zone = document.getElementById('filter-controls');
+      if (!zone) return;
+
+      const categories = [];
+      projets.forEach(p => {
+        if (categories.indexOf(p.category) === -1) categories.push(p.category);
       });
-    });
 
-    renderProjects('all');
-  }
+      const onglets = [{ cle: 'all', libelle: 'Tous les projets' }]
+        .concat(categories.map(cle => ({ cle: cle, libelle: libelleCategorie(cle) })));
 
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+      zone.innerHTML = '';
+
+      onglets.forEach((onglet, index) => {
+        const bouton = document.createElement('button');
+        bouton.type = 'button';
+        bouton.className = 'filter-tab' + (index === 0 ? ' active' : '');
+        bouton.setAttribute('data-filter', onglet.cle);
+        bouton.setAttribute('role', 'tab');
+        bouton.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+        bouton.textContent = onglet.libelle;
+
+        bouton.addEventListener('click', () => {
+          zone.querySelectorAll('.filter-tab').forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          bouton.classList.add('active');
+          bouton.setAttribute('aria-selected', 'true');
+          renderProjects(onglet.cle);
+        });
+
+        zone.appendChild(bouton);
+      });
+    }
+
+    // Repli hors-ligne : on prévient que les .json ne sont pas lisibles.
+    function afficherAvisHorsLigne(erreur) {
+      const avis = document.getElementById('projects-notice');
+      if (avis) avis.hidden = false;
+      console.info('[projets] Projets JSON indisponibles (' + erreur.message + ').');
+      console.info('[projets] En double-clic sur index.html, Chrome interdit de lire les .json locaux.');
+      console.info('[projets] Lance ./demarrer.sh (ou « python3 -m http.server ») puis ouvre http://localhost:8000');
+    }
+
+    chargerProjets()
+      .then(liste => {
+        projets = liste;
+      })
+      .catch(erreur => {
+        afficherAvisHorsLigne(erreur);
+      })
+      .then(() => {
+        // Affichage : projets JSON si disponibles, sinon projets de secours
+        renderOnglets();
+        renderProjects('all');
+      });
   }
 
   // ------------------------------------------------------------------
-  // 13. INITIALISATION DU HERO (après le loader)
+  // 13. CHRONOLOGIE HORIZONTALE (section épinglée)
+  // Le scroll vertical pilote un défilement horizontal : la section
+  // se fige à l’écran pendant que la chronologie glisse vers la droite.
+  // Sans mouvement réduit, un simple défilement horizontal natif fait foi.
+  // ------------------------------------------------------------------
+  function initHorizontalTimeline() {
+    const pin = document.getElementById('timeline-pin');
+    const sticky = document.getElementById('timeline-sticky');
+    const track = document.getElementById('timeline-track');
+    const progressLine = document.getElementById('timeline-progress');
+    const hint = document.getElementById('timeline-hint');
+    if (!pin || !sticky || !track) return;
+
+    const HEADER_OFFSET = 64;
+    let maxShift = 0;
+
+    function setProgress(value) {
+      const p = Math.min(Math.max(value, 0), 1);
+      if (progressLine) progressLine.style.transform = 'scaleX(' + p + ')';
+      if (hint) hint.classList.toggle('is-hidden', p > 0.02);
+    }
+
+    // Repli : la chronologie se défile horizontalement à la main.
+    if (reducedMotion) {
+      sticky.addEventListener('scroll', () => {
+        const range = sticky.scrollWidth - sticky.clientWidth;
+        setProgress(range > 0 ? sticky.scrollLeft / range : 0);
+      }, { passive: true });
+      return;
+    }
+
+    function layout() {
+      pin.classList.add('is-pinned');
+      sticky.scrollLeft = 0; /* le scroll-snap du repli peut décaler le conteneur */
+      track.style.transform = 'translate3d(0, 0, 0)';
+      maxShift = Math.max(0, track.offsetWidth - sticky.clientWidth);
+      pin.style.height = (sticky.offsetHeight + maxShift) + 'px';
+      update();
+    }
+
+    function update() {
+      if (sticky.scrollLeft !== 0) sticky.scrollLeft = 0;
+      if (maxShift <= 0) {
+        track.style.transform = 'none';
+        setProgress(0);
+        return;
+      }
+      const rect = pin.getBoundingClientRect();
+      const raw = (HEADER_OFFSET - rect.top) / maxShift;
+      const progress = Math.min(Math.max(raw, 0), 1);
+      track.style.transform = 'translate3d(' + (-progress * maxShift) + 'px, 0, 0)';
+      setProgress(progress);
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    }, { passive: true });
+
+    window.addEventListener('resize', layout);
+    window.addEventListener('load', layout);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(layout);
+    }
+
+    layout();
+  }
+
+  // ------------------------------------------------------------------
+  // 14. ANNÉE AUTOMATIQUE (badge hero + pied de page)
+  // ------------------------------------------------------------------
+  function initYear() {
+    const year = new Date().getFullYear();
+    document.querySelectorAll('[data-year]').forEach(el => {
+      el.textContent = String(year);
+    });
+  }
+
+  // ------------------------------------------------------------------
+  // 15. INITIALISATION DU HERO (après le loader)
   // ------------------------------------------------------------------
   function initHero() {
     // Toutes les animations d’entrée sont gérées par CSS + IntersectionObserver
@@ -582,9 +870,11 @@
   }
 
   // ------------------------------------------------------------------
-  // 14. DÉMARRAGE
+  // 16. DÉMARRAGE
   // ------------------------------------------------------------------
   window.addEventListener('DOMContentLoaded', () => {
+    initYear();
+    initHorizontalTimeline();
     resizeCanvas();
     initStars();
 

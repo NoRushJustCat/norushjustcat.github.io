@@ -1,0 +1,24 @@
+{
+  "comment": "TEMPLATE À COPIER (ce fichier n'est jamais affiché : il commence par _). Copiez-le vers un nouveau fichier, par exemple 05-mon-projet.json, remplissez les champs, puis ajoutez \"05-mon-projet.json\" dans _index.json. Tous les champs sont facultatifs sauf title.",
+  "id": "mon-projet",
+  "category": "roblox",
+  "title": "Titre du projet",
+  "description": "Une ou deux phrases qui décrivent ce que fait le projet, ce qu'il a appris.",
+  "tags": ["Lua", "POO", "UI"],
+  "image": "assets/images/project-roblox-1.svg",
+  "link": "#",
+  "linkText": "Ouvrir le projet",
+  "badge": "ROBLOX STUDIO",
+
+  "aide": {
+    "id": "Identifiant court, sans espace (optionnel, déduit du titre sinon).",
+    "category": "roblox | aviation | web | divers — l'onglet de filtre correspondant est créé automatiquement.",
+    "title": "Obligatoire.",
+    "description": "Texte libre. Les caractères < et > sont autorisés.",
+    "tags": "Tableau de chaînes affichées sous la carte. Laisser [] s'il n'y en a pas.",
+    "image": "Chemin de l'image (relatif à index.html). Vide = pas d'image.",
+    "link": "URL du projet. '#' si aucun lien.",
+    "linkText": "Texte du lien (défaut : « Voir le projet »).",
+    "badge": "Petite étiquette en haut à droite de l'image. Vide = pas de badge."
+  }
+}
