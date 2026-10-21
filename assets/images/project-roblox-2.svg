@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0e1726"/>
+      <stop offset="100%" stop-color="#050a12"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg2)"/>
+  <!-- Piste d'atterrissage & balisage lumineux -->
+  <line x1="100" y1="360" x2="350" y2="120" stroke="#ffb454" stroke-width="2" stroke-dasharray="10 10" opacity="0.6"/>
+  <line x1="700" y1="360" x2="450" y2="120" stroke="#ffb454" stroke-width="2" stroke-dasharray="10 10" opacity="0.6"/>
+  <polygon points="350,120 450,120 520,380 280,380" fill="#112239" opacity="0.4"/>
+  <line x1="400" y1="120" x2="400" y2="380" stroke="#f0f6fc" stroke-width="3" stroke-dasharray="20 15" opacity="0.7"/>
+  <!-- Feux de piste (vert seuil, blanc piste) -->
+  <circle cx="350" cy="120" r="5" fill="#3cd070"/>
+  <circle cx="450" cy="120" r="5" fill="#3cd070"/>
+  <circle cx="280" cy="380" r="7" fill="#45d6e8"/>
+  <circle cx="520" cy="380" r="7" fill="#45d6e8"/>
+  <!-- Badge Roblox -->
+  <g transform="translate(680, 30)">
+    <rect x="0" y="0" width="90" height="30" rx="6" fill="#e2231a" opacity="0.9"/>
+    <text x="45" y="20" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">ROBLOX</text>
+  </g>
+  <text x="50" y="380" fill="#f0f6fc" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="bold">Logistique &amp; Balisage Aéroportuaire</text>
+  <text x="50" y="410" fill="#9ab3cf" font-family="sans-serif" font-size="15">Gestion de trafic au sol, guidage au taxiway et physique de roulage</text>
+</svg>
