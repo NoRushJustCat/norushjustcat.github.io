@@ -735,13 +735,27 @@
       });
     }
 
-    // Repli hors-ligne : on prévient que les .json ne sont pas lisibles.
-    function afficherAvisHorsLigne(erreur) {
+    // Repli si les .json ne sont pas lisibles. Le message dépend de la
+    // cause : double-clic local (file://, le navigateur bloque la lecture
+    // des fichiers) ou fichiers manquants côté serveur (hébergement).
+    function afficherAvisProjets(erreur) {
       const avis = document.getElementById('projects-notice');
-      if (avis) avis.hidden = false;
+      if (avis) {
+        if (location.protocol === 'file:') {
+          avis.innerHTML = 'Les projets d\'origine sont affichés : en double-cliquant sur index.html, '
+            + 'Firefox et Chrome interdisent de lire des fichiers .json locaux. '
+            + 'Pour voir tes projets : lance <code>./demarrer.sh</code> puis ouvre <code>http://localhost:8000</code>.';
+        } else {
+          avis.innerHTML = 'Les fichiers de projets sont introuvables sur le serveur. '
+            + 'Vérifie que les .json de <code>assets/projects/</code> sont bien commités et poussés.';
+        }
+        avis.hidden = false;
+      }
+
       console.info('[projets] Projets JSON indisponibles (' + erreur.message + ').');
-      console.info('[projets] En double-clic sur index.html, Chrome interdit de lire les .json locaux.');
-      console.info('[projets] Lance ./demarrer.sh (ou « python3 -m http.server ») puis ouvre http://localhost:8000');
+      if (location.protocol === 'file:') {
+        console.info('[projets] Double-clic : le navigateur interdit de lire les fichiers locaux. Lance ./demarrer.sh puis ouvre http://localhost:8000');
+      }
     }
 
     chargerProjets()
@@ -749,7 +763,7 @@
         projets = liste;
       })
       .catch(erreur => {
-        afficherAvisHorsLigne(erreur);
+        afficherAvisProjets(erreur);
       })
       .then(() => {
         // Affichage : projets JSON si disponibles, sinon projets de secours

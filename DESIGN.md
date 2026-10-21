@@ -107,10 +107,12 @@ assets/projects/
 3. Les onglets de filtre sont **générés automatiquement** à partir des catégories présentes : un projet en `"category": "web"` crée l'onglet « Web ».
 
 ### 7.4 Repli hors-ligne (contrainte double-clic)
-Chrome interdit toute requête vers un fichier local en `file://` (origine `null`, politique CORS) : `fetch()` sur les `.json` échoue donc en double-clic sur `index.html`.
+Les navigateurs (Chrome, Firefox…) interdisent toute requête vers un fichier local en `file://` (origine `null`, politique CORS) : `fetch()` sur les `.json` échoue donc en double-clic sur `index.html`.
 
 - **En double-clic** : la section Projets affiche les projets de secours (`PROJETS_DE_SECOURS` dans `script.js`, copie des mêmes données) et un bandeau ambre explique la situation.
 - **Via un serveur local** (`./demarrer.sh` sous Linux/macOS, `demarrer.bat` sous Windows, soit `python3 -m http.server`) ou une fois **hébergé en ligne**, les `.json` se chargent et les projets personnels s'affichent.
+- **GitHub Pages : `.nojekyll` à la racine est obligatoire.** Pages construit les sites avec Jekyll, qui ignore les fichiers dont le nom commence par un underscore (`_index.json` en 404). `.nojekyll` indique à Pages de servir les fichiers tels quels.
+- Le bandeau s'adapte à la cause : en `file://` il parle du double-clic et de `demarrer.sh` ; hébergé, il invite à vérifier que les `.json` sont commités et poussés.
 - Un fichier cassé ou absent n'empêche pas les autres : il est signalé dans la console et ignoré.
 - Tout texte issu des JSON est échappé (`escapeHtml` / `escapeAttr`) avant injection dans le DOM.
 

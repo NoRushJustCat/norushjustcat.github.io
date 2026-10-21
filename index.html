@@ -401,13 +401,10 @@
           <!-- Injecté dynamiquement par script.js -->
         </div>
 
-        <!-- Affiché si les .json ne peuvent pas être lus (double-clic file://) -->
-        <p class="projects-notice" id="projects-notice" role="status" hidden>
-          Mode hors-ligne : les projets d'origine sont affichés, car Chrome interdit de
-          lire des fichiers <code>.json</code> locaux en double-clic.
-          Pour activer tes projets : lance <code>./demarrer.sh</code> (ou
-          <code>python3 -m http.server</code>) puis ouvre <code>http://localhost:8000</code>.
-        </p>
+        <!-- Avis rempli par script.js selon la cause : double-clic local
+             (le navigateur bloque la lecture des .json) ou fichiers de
+             projets introuvables côté serveur (hébergement). -->
+        <p class="projects-notice" id="projects-notice" role="status" hidden></p>
 
         <div class="projects-layout" id="projects-container">
           <!-- Injecté dynamiquement par script.js -->
