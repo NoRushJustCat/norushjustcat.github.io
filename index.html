@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoRushJustChat — Portfolio Aviation &amp; Roblox Studio</title>
+
+  <meta name="description" content="Portfolio de NoRushJustChat : lycéen passionné d'aéronautique, titulaire du BIA mention Très Bien, et développeur de jeux sur Roblox Studio en Luau.">
+  <meta name="author" content="NoRushJustChat">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NoRushJustChat — Portfolio Aviation &amp; Roblox Studio">
+  <meta property="og:description" content="Projets Roblox Studio, parcours aéronautique, BIA mention Très Bien et réalisations techniques.">
+  <meta property="og:image" content="assets/images/project-roblox-1.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NoRushJustChat — Portfolio">
+  <meta name="twitter:description" content="Lycéen passionné d'aviation et développeur Roblox Studio.">
+
+  <!-- Polices Google Fonts avec fallback système immédiat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Écran de chargement rapide (Flight Check) -->
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader-content">
+      <div class="loader-plane">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-svg" aria-hidden="true">
+          <path d="M12 2L9 9H3l3 4-2 6 8-3 8 3-2-6 3-4h-6l-3-7z"/>
+        </svg>
+      </div>
+      <div class="loader-progress-bar">
+        <div class="loader-progress-fill" id="loader-fill"></div>
+      </div>
+      <div class="loader-text">
+        <span class="loader-status">INITIALISATION COCKPIT</span>
+        <span class="loader-pct" id="loader-pct">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Curseur personnalisé (actif uniquement sur pointeurs fins) -->
+  <div class="custom-cursor" id="custom-cursor" aria-hidden="true">
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+  </div>
+
+  <!-- Fond dynamique canvas (étoiles et balises radar discrètes) -->
+  <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Indicateur vertical de vol (avion qui descend avec le scroll) -->
+  <div class="flight-tracker" aria-hidden="true">
+    <div class="flight-tracker-track">
+      <div class="flight-tracker-fill" id="flight-fill"></div>
+      <div class="flight-tracker-plane" id="flight-plane">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="none">
+          <path d="M12 2L9 9H3l3 4-2 6 8-3 8 3-2-6 3-4h-6l-3-7z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barre de navigation sticky -->
+  <header class="site-header" id="header">
+    <div class="header-container">
+      <a href="#hero" class="brand" aria-label="Retour en haut de page">
+        <span class="brand-radar">
+          <span class="radar-dot"></span>
+          <span class="radar-wave"></span>
+        </span>
+        <span class="brand-name">NoRushJustChat</span>
+        <span class="brand-badge">FLIGHT LOG</span>
+      </a>
+
+      <!-- Bouton menu mobile -->
+      <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="primary-nav">
+        <span class="toggle-bar"></span>
+        <span class="toggle-bar"></span>
+        <span class="toggle-bar"></span>
+      </button>
+
+      <!-- Navigation principale -->
+      <nav class="primary-nav" id="primary-nav" aria-label="Navigation principale">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#about" class="nav-link">À propos</a></li>
+          <li class="nav-item"><a href="#parcours" class="nav-link">Parcours</a></li>
+          <li class="nav-item"><a href="#projets" class="nav-link">Projets</a></li>
+          <li class="nav-item"><a href="#competences" class="nav-link">Compétences</a></li>
+          <li class="nav-item"><a href="#passions" class="nav-link">Centres d'intérêt</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link nav-cta">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- SECTION 1 : HERO -->
+    <section id="hero" class="hero-section">
+      <div class="hero-container">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span class="hero-badge-label">SYSTÈMES PRÊTS • PROMOTION 2026</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="hero-name">NoRushJustChat</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Passionné d'aviation • Développeur Roblox Studio
+        </p>
+
+        <p class="hero-text">
+          Lycéen curieux et méthodique. Titulaire du Brevet d'Initiation Aéronautique mention Très Bien, je m'intéresse à la mécanique de vol et je développe des jeux complets en Luau sur Roblox Studio.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projets" class="btn btn-primary">
+            <span>Voir mes projets</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#parcours" class="btn btn-secondary">
+            <span>Découvrir mon parcours</span>
+          </a>
+        </div>
+
+        <!-- Télémétrie et métriques clés -->
+        <div class="telemetry-grid">
+          <div class="telemetry-card">
+            <div class="telemetry-number" data-target="2">0</div>
+            <div class="telemetry-tag">Excellence</div>
+            <div class="telemetry-desc">Mentions Très Bien (BIA et Brevet)</div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-number" data-target="2">0</div>
+            <div class="telemetry-tag">Ateliers</div>
+            <div class="telemetry-desc">Stages (Air France Industries et Midas)</div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-number" data-target="4">0</div>
+            <div class="telemetry-tag">Technique</div>
+            <div class="telemetry-desc">Projets présentés (Luau et Web)</div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-number" data-target="100" data-suffix="%">0%</div>
+            <div class="telemetry-tag">Implication</div>
+            <div class="telemetry-desc">Régularité et envie d'apprendre</div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#about" class="scroll-down" aria-label="Défiler vers la section À propos">
+        <span class="scroll-down-label">DÉFILER</span>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="scroll-arrow" aria-hidden="true">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </a>
+    </section>
+
+    <!-- SECTION 2 : À PROPOS -->
+    <section id="about" class="section about-section">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-pretitle">PRÉSENTATION</span>
+          <h2 class="section-title">Profil &amp; Démarche</h2>
+          <p class="section-lead">Une approche orientée vers la technique, la compréhension des machines et la rigueur.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-profile-card">
+            <div class="cockpit-tag">CALLSIGN : NORUSHJUSTCHAT</div>
+            <h3 class="about-card-title">Lycéen, bricoleur et créateur de jeux</h3>
+
+            <p>
+              Je m'investis pleinement dans mes études avec de solides retours de mes enseignants sur mon sérieux et ma méthode. L'aéronautique m'attire particulièrement : j'aime savoir comment un avion vole, comment les réacteurs fonctionnent et comment les équipes au sol garantissent la sécurité de chaque départ.
+            </p>
+            <p>
+              En dehors des cours, je passe mon temps sur deux activités complémentaires : le bricolage mécanique pratique et la programmation en Luau sur Roblox Studio. Le code me permet de tester mes idées de systèmes de jeu, d'interfaces et de physique en direct.
+            </p>
+            <p>
+              Mon objectif est de continuer à apprendre pour m'orienter vers les métiers techniques et d'ingénierie du secteur aéronautique.
+            </p>
+
+            <div class="about-strengths">
+              <div class="strength-chip">
+                <span class="strength-icon">✈️</span>
+                <span>BIA validé mention Très Bien</span>
+              </div>
+              <div class="strength-chip">
+                <span class="strength-icon">🔧</span>
+                <span>Dextérité manuelle et mécanique</span>
+              </div>
+              <div class="strength-chip">
+                <span class="strength-icon">💻</span>
+                <span>Développement Roblox Studio (Luau)</span>
+              </div>
+              <div class="strength-chip">
+                <span class="strength-icon">🎯</span>
+                <span>Rigueur et rapidité d'exécution</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-points">
+            <div class="point-card">
+              <div class="point-icon-box">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M12 2L9 9H3l3 4-2 6 8-3 8 3-2-6 3-4h-6l-3-7z"/>
+                </svg>
+              </div>
+              <div class="point-info">
+                <h4 class="point-title">Discipline de l'aviation</h4>
+                <p class="point-text">
+                  L'aéronautique exige de la clarté et aucune place pour le hasard. J'applique cette règle à mon travail scolaire et à mes projets personnels.
+                </p>
+              </div>
+            </div>
+
+            <div class="point-card">
+              <div class="point-icon-box">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <div class="point-info">
+                <h4 class="point-title">Logique logicielle</h4>
+                <p class="point-text">
+                  Sur Roblox Studio, je structure des scripts modulaires, gère la physique multijoueur et conçois des interfaces adaptées aux joueurs.
+                </p>
+              </div>
+            </div>
+
+            <div class="point-card">
+              <div class="point-icon-box">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+              </div>
+              <div class="point-info">
+                <h4 class="point-title">Expérience concrète en atelier</h4>
+                <p class="point-text">
+                  Mes stages chez Air France Industries et Midas m'ont permis de manipuler l'outillage professionnel et d'observer des interventions de maintenance réelles.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3 : PARCOURS & TIMELINE -->
+    <section id="parcours" class="section parcours-section">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-pretitle">CHRONOLOGIE</span>
+          <h2 class="section-title">Parcours &amp; Expériences</h2>
+          <p class="section-lead">Formations, immersions professionnelles et étapes marquantes.</p>
+        </div>
+
+        <div class="timeline-wrapper">
+          <div class="timeline-line">
+            <div class="timeline-progress" id="timeline-progress"></div>
+          </div>
+
+          <div class="timeline-list">
+            <!-- 1. BIA -->
+            <article class="timeline-row timeline-left" data-reveal>
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <div class="timeline-top">
+                  <span class="timeline-type type-exam">Diplôme aéronautique</span>
+                  <span class="timeline-period">Examen officiel</span>
+                </div>
+                <h3 class="timeline-heading">Brevet d'Initiation Aéronautique (BIA)</h3>
+                <div class="timeline-result">Mention Très Bien</div>
+                <p class="timeline-summary">
+                  Étude approfondie de cinq domaines clés : aérodynamique et mécanique du vol, connaissance des aéronefs, météorologie, navigation et histoire de l'aviation.
+                </p>
+                <div class="tag-row">
+                  <span class="tag">Mécanique du vol</span>
+                  <span class="tag">Météorologie</span>
+                  <span class="tag">Navigation</span>
+                  <span class="tag">Réglementation</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 2. Air France Industries -->
+            <article class="timeline-row timeline-right" data-reveal>
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <div class="timeline-top">
+                  <span class="timeline-type type-stage">Stage en entreprise</span>
+                  <span class="timeline-period">Classe de 2de</span>
+                </div>
+                <h3 class="timeline-heading">Air France Industries</h3>
+                <div class="timeline-result">Découverte de la maintenance aéronautique</div>
+                <p class="timeline-summary">
+                  Observation des équipes techniques en atelier et en hangar : protocoles d'entretien des turboréacteurs, vérifications de navigabilité, outillage spécifique et logistique de pièces de rechange.
+                </p>
+                <div class="tag-row">
+                  <span class="tag">Maintenance MRO</span>
+                  <span class="tag">Moteurs d'avions</span>
+                  <span class="tag">Sécurité des vols</span>
+                  <span class="tag">Travail en équipe</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 3. Baptêmes de l'air -->
+            <article class="timeline-row timeline-left" data-reveal>
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <div class="timeline-top">
+                  <span class="timeline-type type-flight">Vol réel</span>
+                  <span class="timeline-period">Aéroclub</span>
+                </div>
+                <h3 class="timeline-heading">Baptêmes de l'Air &amp; Vols de Découverte</h3>
+                <div class="timeline-result">Premières prises de commandes</div>
+                <p class="timeline-summary">
+                  Plusieurs vols avec instructeur aux commandes d'un avion léger : visite prévol complète, roulage au sol, maintien d'altitude, virages coordonnés et surveillance des instruments de bord.
+                </p>
+                <div class="tag-row">
+                  <span class="tag">Visite prévol</span>
+                  <span class="tag">Pilotage de base</span>
+                  <span class="tag">Lecture instruments</span>
+                  <span class="tag">Communication radio</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 4. Midas -->
+            <article class="timeline-row timeline-right" data-reveal>
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <div class="timeline-top">
+                  <span class="timeline-type type-stage">Stage en entreprise</span>
+                  <span class="timeline-period">Classe de 3e</span>
+                </div>
+                <h3 class="timeline-heading">Midas, Chelles</h3>
+                <div class="timeline-result">Initiation à la mécanique automobile</div>
+                <p class="timeline-summary">
+                  Pratique en atelier aux côtés des mécaniciens : remplacement d'éléments d'usure, vidanges moteur, diagnostic des suspensions et pneumatiques, règles de sécurité d'un atelier mécanique.
+                </p>
+                <div class="tag-row">
+                  <span class="tag">Outillage mécanique</span>
+                  <span class="tag">Diagnostic</span>
+                  <span class="tag">Entretien périodique</span>
+                  <span class="tag">Rigueur atelier</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 5. Collège & ASSR 1 -->
+            <article class="timeline-row timeline-left" data-reveal>
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <div class="timeline-top">
+                  <span class="timeline-type type-exam">Diplôme national</span>
+                  <span class="timeline-period">Collège</span>
+                </div>
+                <h3 class="timeline-heading">Diplôme National du Brevet &amp; ASSR 1</h3>
+                <div class="timeline-result">Mention Très Bien</div>
+                <p class="timeline-summary">
+                  Validation du brevet des collèges avec la plus haute mention, confirmant un travail méthodique et continu dans toutes les matières.
+                </p>
+                <div class="tag-row">
+                  <span class="tag">Mention Très Bien</span>
+                  <span class="tag">ASSR 1</span>
+                  <span class="tag">Régularité</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4 : PROJETS -->
+    <section id="projets" class="section projets-section">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-pretitle">RÉALISATIONS</span>
+          <h2 class="section-title">Projets Développés</h2>
+          <p class="section-lead">Créations sur Roblox Studio (scripts Luau) et outil web d'investigation aéronautique.</p>
+        </div>
+
+        <div class="filter-controls" role="tablist" aria-label="Filtrer les projets">
+          <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">Tous les projets</button>
+          <button class="filter-tab" data-filter="roblox" role="tab" aria-selected="false">Roblox Studio</button>
+          <button class="filter-tab" data-filter="aviation" role="tab" aria-selected="false">Aviation Web</button>
+        </div>
+
+        <div class="projects-layout" id="projects-container">
+          <!-- Injecté dynamiquement par script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5 : COMPÉTENCES -->
+    <section id="competences" class="section competences-section">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-pretitle">SAVOIR-FAIRE</span>
+          <h2 class="section-title">Compétences Techniques &amp; Savoir-Être</h2>
+          <p class="section-lead">Des bases techniques concrètes combinées à une forte capacité d'adaptation.</p>
+        </div>
+
+        <div class="skills-columns">
+          <!-- Colonne Technique -->
+          <div class="skills-panel">
+            <div class="panel-header">
+              <span class="panel-icon">💻</span>
+              <h3 class="panel-title">Compétences Techniques</h3>
+            </div>
+
+            <div class="meter-list">
+              <div class="meter-item">
+                <div class="meter-head">
+                  <span class="meter-name">Roblox Studio &amp; Scripting Luau</span>
+                  <span class="meter-val">88%</span>
+                </div>
+                <div class="meter-rail">
+                  <div class="meter-bar" data-score="88"></div>
+                </div>
+                <span class="meter-notes">Modélisation de logique de jeu, architecture client-serveur, interfaces Tween et physique</span>
+              </div>
+
+              <div class="meter-item">
+                <div class="meter-head">
+                  <span class="meter-name">Aisance Mécanique &amp; Bricolage</span>
+                  <span class="meter-val">85%</span>
+                </div>
+                <div class="meter-rail">
+                  <div class="meter-bar" data-score="85"></div>
+                </div>
+                <span class="meter-notes">Utilisation des outils d'atelier, diagnostic d'organes mécaniques, assemblage et montage</span>
+              </div>
+
+              <div class="meter-item">
+                <div class="meter-head">
+                  <span class="meter-name">Bases Informatiques &amp; Logique Système</span>
+                  <span class="meter-val">82%</span>
+                </div>
+                <div class="meter-rail">
+                  <div class="meter-bar" data-score="82"></div>
+                </div>
+                <span class="meter-notes">Environnement Linux et Windows, notions de Git, structure de données, HTML/CSS de base</span>
+              </div>
+
+              <div class="meter-item">
+                <div class="meter-head">
+                  <span class="meter-name">Théorie Aéronautique (BIA)</span>
+                  <span class="meter-val">92%</span>
+                </div>
+                <div class="meter-rail">
+                  <div class="meter-bar" data-score="92"></div>
+                </div>
+                <span class="meter-notes">Principes de sustentation, météorologie de vol, instruments gyroscopiques et altimétriques</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colonne Savoir-Être -->
+          <div class="skills-panel">
+            <div class="panel-header">
+              <span class="panel-icon">⭐</span>
+              <h3 class="panel-title">Savoir-Être &amp; Comportement</h3>
+            </div>
+
+            <div class="qualities-list">
+              <div class="quality-card">
+                <div class="quality-num">01</div>
+                <div class="quality-body">
+                  <h4 class="quality-title">Curiosité et volonté d'apprendre</h4>
+                  <p class="quality-text">Je cherche toujours à comprendre le fonctionnement interne des systèmes pour progresser rapidement.</p>
+                </div>
+              </div>
+
+              <div class="quality-card">
+                <div class="quality-num">02</div>
+                <div class="quality-body">
+                  <h4 class="quality-title">Sérieux et rigueur</h4>
+                  <p class="quality-text">Habitude d'un travail soigné, vérifié étape par étape selon les consignes reçues.</p>
+                </div>
+              </div>
+
+              <div class="quality-card">
+                <div class="quality-num">03</div>
+                <div class="quality-body">
+                  <h4 class="quality-title">Dynamisme et réactivité</h4>
+                  <p class="quality-text">Toujours prêt à agir et à chercher des solutions directes en cas de problème ou d'imprévu.</p>
+                </div>
+              </div>
+
+              <div class="quality-card">
+                <div class="quality-num">04</div>
+                <div class="quality-body">
+                  <h4 class="quality-title">Rapidité d'exécution</h4>
+                  <p class="quality-text">Assimilation directe des consignes pour livrer un travail propre sans perdre de temps.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6 : LANGUES ET CENTRES D'INTÉRÊT -->
+    <section id="passions" class="section passions-section">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-pretitle">OUVERTURE</span>
+          <h2 class="section-title">Langues &amp; Centres d'Intérêt</h2>
+          <p class="section-lead">Centres d'intérêt personnels et compétences linguistiques.</p>
+        </div>
+
+        <div class="interests-layout">
+          <!-- Bloc Langues -->
+          <div class="card-box">
+            <h3 class="box-heading">
+              <span>Langues pratiquées</span>
+            </h3>
+
+            <div class="lang-list">
+              <div class="lang-row">
+                <div class="lang-meta">
+                  <span class="lang-name">Français</span>
+                  <span class="lang-rank">Langue maternelle</span>
+                </div>
+                <div class="lang-line">
+                  <div class="lang-gauge" style="width: 100%;"></div>
+                </div>
+              </div>
+
+              <div class="lang-row">
+                <div class="lang-meta">
+                  <span class="lang-name">Anglais</span>
+                  <span class="lang-rank">Niveau scolaire (lecture fluide de documentation technique)</span>
+                </div>
+                <div class="lang-line">
+                  <div class="lang-gauge" style="width: 70%;"></div>
+                </div>
+              </div>
+
+              <div class="lang-row">
+                <div class="lang-meta">
+                  <span class="lang-name">Espagnol</span>
+                  <span class="lang-rank">Niveau scolaire</span>
+                </div>
+                <div class="lang-line">
+                  <div class="lang-gauge" style="width: 55%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloc Centres d'intérêt -->
+          <div class="card-box">
+            <h3 class="box-heading">
+              <span>Centres d'intérêt</span>
+            </h3>
+
+            <div class="hobbies-grid">
+              <div class="hobby-card">
+                <span class="hobby-emoji">✈️</span>
+                <div class="hobby-details">
+                  <h4 class="hobby-title">Aviation &amp; Ingénierie</h4>
+                  <p class="hobby-desc">Avions de ligne, moteurs à réaction, aérodynamique et reconstitution d'incidents.</p>
+                </div>
+              </div>
+
+              <div class="hobby-card">
+                <span class="hobby-emoji">🔧</span>
+                <div class="hobby-details">
+                  <h4 class="hobby-title">Mécanique &amp; Bricolage</h4>
+                  <p class="hobby-desc">Fonctionnement des moteurs, démontage, réparation d'outils et travail du métal/bois.</p>
+                </div>
+              </div>
+
+              <div class="hobby-card">
+                <span class="hobby-emoji">🎮</span>
+                <div class="hobby-details">
+                  <h4 class="hobby-title">Création Roblox Studio</h4>
+                  <p class="hobby-desc">Conception de game design, scripts Luau, création de mécaniques et d'interfaces.</p>
+                </div>
+              </div>
+
+              <div class="hobby-card">
+                <span class="hobby-emoji">💻</span>
+                <div class="hobby-details">
+                  <h4 class="hobby-title">Informatique pratique</h4>
+                  <p class="hobby-desc">Configuration système, programmation, curiosité pour les technologies numériques.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7 : CONTACT -->
+    <section id="contact" class="section contact-section">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-pretitle">COMMUNICATION</span>
+          <h2 class="section-title">Prendre Contact</h2>
+          <p class="section-lead">Pour échanger sur un projet, une formation ou une opportunité technique.</p>
+        </div>
+
+        <div class="contact-layout">
+          <!-- Colonne gauche : infos directes et réseaux -->
+          <div class="contact-sidebar">
+            <div class="contact-tile">
+              <span class="tile-label">CANAL E-MAIL</span>
+              <p class="tile-note">Placeholder à remplacer par votre e-mail avant publication :</p>
+
+              <div class="email-box">
+                <span class="email-text" id="target-email">TON_EMAIL_ICI</span>
+                <button type="button" class="btn-copy" id="copy-email-btn" aria-label="Copier l'adresse de contact">
+                  <span id="copy-btn-text">Copier</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="contact-tile">
+              <span class="tile-label">PROFILS &amp; LIENS</span>
+              <div class="profile-links">
+                <!-- Roblox -->
+                <a href="https://www.roblox.com/users/TON_ID_ROBLOX/profile" target="_blank" rel="noopener noreferrer" class="link-item link-roblox">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="link-icon" aria-hidden="true">
+                    <path d="M5.38 0L0 18.62 18.62 24 24 5.38 5.38 0zm9.4 13.06l-4.22-1.22 1.22-4.22 4.22 1.22-1.22 4.22z"/>
+                  </svg>
+                  <span class="link-label">Roblox Studio</span>
+                  <span class="link-arrow">↗</span>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/TON_PSEUDO_GITHUB" target="_blank" rel="noopener noreferrer" class="link-item link-github">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="link-icon" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                  <span class="link-label">GitHub</span>
+                  <span class="link-arrow">↗</span>
+                </a>
+
+                <!-- Discord -->
+                <a href="https://discord.com/users/TON_ID_DISCORD" target="_blank" rel="noopener noreferrer" class="link-item link-discord">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="link-icon" aria-hidden="true">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                  </svg>
+                  <span class="link-label">Discord</span>
+                  <span class="link-arrow">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire de contact -->
+          <div class="contact-main">
+            <form id="contact-form" class="form-card" action="https://formspree.io/f/TON_FORM_ID" method="POST">
+              <h3 class="form-title">Envoyer un message direct</h3>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="form-name">Nom ou pseudonyme <span class="required">*</span></label>
+                  <input type="text" id="form-name" name="name" required placeholder="Votre nom" autocomplete="name">
+                </div>
+
+                <div class="form-field">
+                  <label for="form-email">Adresse e-mail <span class="required">*</span></label>
+                  <input type="email" id="form-email" name="email" required placeholder="adresse@domaine.fr" autocomplete="email">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="form-subject">Sujet <span class="required">*</span></label>
+                <input type="text" id="form-subject" name="subject" required placeholder="Objet de votre message">
+              </div>
+
+              <div class="form-field">
+                <label for="form-message">Message <span class="required">*</span></label>
+                <textarea id="form-message" name="message" rows="5" required placeholder="Votre message..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-send">
+                <span>Transmettre</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+
+              <div id="form-feedback" class="form-feedback" role="alert" aria-live="polite"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PIED DE PAGE -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-title">NoRushJustChat</span>
+        <p class="footer-tagline">Portfolio statique personnel. BIA mention Très Bien.</p>
+      </div>
+
+      <div class="footer-right">
+        <span class="footer-note">Hébergement statique gratuit sans serveur</span>
+        <a href="#hero" class="to-top-btn" aria-label="Remonter en haut de page">
+          <span>Haut de page</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
