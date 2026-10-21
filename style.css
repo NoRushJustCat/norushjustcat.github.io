@@ -977,6 +977,20 @@ body.cursor-active .cursor-ring.hovered {
   border-color: var(--accent-cyan);
 }
 
+/* Mention permanente : les projets affichés sont des placeholders */
+.projects-placeholder {
+  margin: 0.1rem auto 2.4rem;
+  text-align: center;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.projects-placeholder::before {
+  content: '⚠ ';
+  color: var(--accent-amber);
+}
+
 /* Avis affiché quand les fichiers .json de projets sont illisibles
    (double-clic sur index.html → file://, requêtes bloquées par Chrome) */
 .projects-notice {
