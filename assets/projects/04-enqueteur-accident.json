@@ -1,0 +1,11 @@
+{
+  "id": "aviation-1",
+  "category": "aviation",
+  "title": "Enquêteur d'Accident Aérien",
+  "description": "Outil web d'analyse de données de vol : télémétrie, chronologie des événements et visualisation de trajectoire.",
+  "tags": ["HTML5", "Canvas", "JavaScript", "Cartographie"],
+  "image": "assets/images/project-aviation-web.svg",
+  "link": "#",
+  "linkText": "Voir l'outil",
+  "badge": "AVIATION • WEB"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "roblox-3",
+  "category": "roblox",
+  "title": "Système d'IA & Quêtes Modulaires",
+  "description": "Machines à états pour PNJ, architecture modulaire et synchronisation client-serveur.",
+  "tags": ["Luau", "IA", "State Machine", "Datastore"],
+  "image": "assets/images/project-roblox-3.svg",
+  "link": "#",
+  "linkText": "Ouvrir le projet",
+  "badge": "ROBLOX STUDIO"
+}

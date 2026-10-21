@@ -1,0 +1,11 @@
+{
+  "id": "roblox-1",
+  "category": "roblox",
+  "title": "Simulateur de Vol & Instruments",
+  "description": "Cockpit virtuel fonctionnel avec HUD temps réel, lecture des instruments de vol et physique de sustentation.",
+  "tags": ["Luau", "POO", "Physique", "HUD"],
+  "image": "assets/images/project-roblox-1.svg",
+  "link": "#",
+  "linkText": "Ouvrir le projet",
+  "badge": "ROBLOX STUDIO"
+}
