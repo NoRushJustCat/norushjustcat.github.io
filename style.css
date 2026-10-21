@@ -285,6 +285,23 @@ body.cursor-active .cursor-ring.hovered {
   pointer-events: none;
 }
 
+/* ---------- FOND IMAGE PERSONNEL (config.json, champ imageFond) ---------- */
+/* Sous tout le contenu (-2) : l'image passe derrière le voile appliqué
+   par script.js, puis derrière toutes les sections du site. */
+.fond-image {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.fond-image[hidden] {
+  display: none;
+}
+
 /* ---------- INDICATEUR DE VOL ---------- */
 .flight-tracker {
   position: fixed;

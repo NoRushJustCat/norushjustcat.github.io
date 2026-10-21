@@ -857,7 +857,64 @@
   }
 
   // ------------------------------------------------------------------
-  // 15. INITIALISATION DU HERO (après le loader)
+  // 15. CONFIGURATION OPTIONNELLE (config.json, à la racine)
+  //
+  //   placeholderVisible : true|false → la mention « placeholders »
+  //                        s'affiche au-dessus des projets ou est retirée.
+  //   imageFond          : chemin ou URL d'une image → devient le fond du
+  //                        site (voile sombre appliqué), le canvas d'étoiles
+  //                        est alors retiré. "" ou champ absent = fond actuel.
+  //
+  // Si config.json ne peut pas être lu (double-clic file://, fichier
+  // absent ou invalide), les valeurs par défaut s'appliquent : mention
+  // affichée et fond étoiles conservé, sans message bloquant.
+  // ------------------------------------------------------------------
+  let imageFondActive = false;
+
+  function chargerConfig() {
+    return fetch('config.json', { cache: 'no-store' })
+      .then(reponse => {
+        if (!reponse.ok) return null;
+        return reponse.json();
+      })
+      .then(config => {
+        return (config && typeof config === 'object' && !Array.isArray(config)) ? config : null;
+      })
+      .catch(erreur => {
+        console.info('[config] config.json non lu (' + erreur.message + ') → valeurs par défaut.');
+        return null;
+      });
+  }
+
+  function appliquerConfig(config) {
+    if (!config) return;
+
+    // Mention « placeholders » retirée si demandé
+    if (config.placeholderVisible === false) {
+      const mention = document.querySelector('.projects-placeholder');
+      if (mention) mention.remove();
+    }
+
+    // Fond image : remplace le canvas d'étoiles quand il est renseigné
+    const cheminImage = (typeof config.imageFond === 'string') ? config.imageFond.trim() : '';
+    const fond = document.getElementById('fond-image');
+    if (!fond || !cheminImage) return;
+
+    // Image + voile sombre (deux couches de background) pour garder
+    // le texte lisible quelle que soit la photo.
+    fond.style.backgroundImage =
+      'linear-gradient(rgba(6, 11, 20, 0.55), rgba(6, 11, 20, 0.55)), url("'
+      + cheminImage.replace(/"/g, '%22') + '")';
+    fond.hidden = false;
+    imageFondActive = true;
+
+    // Le canvas n'a plus de rôle : arrêt du dessin et masquage
+    if (canvas) canvas.style.display = 'none';
+    ctx = null;
+  }
+
+  // ------------------------------------------------------------------
+  // 16. INITIALISATION DU HERO (après le loader)
   // ------------------------------------------------------------------
   function initHero() {
     // Toutes les animations d’entrée sont gérées par CSS + IntersectionObserver
@@ -884,7 +941,7 @@
   }
 
   // ------------------------------------------------------------------
-  // 16. DÉMARRAGE
+  // 17. DÉMARRAGE
   // ------------------------------------------------------------------
   window.addEventListener('DOMContentLoaded', () => {
     initYear();
@@ -903,6 +960,11 @@
       resizeCanvas();
       initStars();
     });
+
+    // config.json peut retirer la mention « placeholders » et remplacer
+    // le fond animé par une image : appliqué dès qu'il est lu, valeurs
+    // par défaut sinon (double-clic, fichier absent…).
+    chargerConfig().then(appliquerConfig);
 
     startLoader();
   });

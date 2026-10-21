@@ -1,0 +1,8 @@
+{
+  "aide": {
+    "placeholderVisible": "true : la mention « Ces projets sont des placeholders… » s'affiche au-dessus des projets. false : elle est retirée du site.",
+    "imageFond": "Chemin ou URL d'une image affichée en fond du site à la place du canvas d'étoiles (un voile sombre est appliqué pour garder le texte lisible). Laisser \"\" pour conserver le fond actuel."
+  },
+  "placeholderVisible": true,
+  "imageFond": ""
+}

@@ -117,3 +117,17 @@ Les navigateurs (Chrome, Firefox…) interdisent toute requête vers un fichier 
 - Tout texte issu des JSON est échappé (`escapeHtml` / `escapeAttr`) avant injection dans le DOM.
 
 ---
+
+## 8. Configuration optionnelle (`config.json`, à la racine)
+
+| Champ | Valeurs | Effet |
+| :--- | :--- | :--- |
+| `placeholderVisible` | `true` / `false` | Affiche ou retire la mention « Ces projets sont des placeholders… » |
+| `imageFond` | chemin ou URL d'image | Remplace le canvas d'étoiles par cette image, recouverte d'un voile sombre (55 %) pour garder le texte lisible |
+
+- `imageFond` vide (ou champ absent) → **fond actuel conservé** (canvas d'étoiles) : aucune image n'est imposée.
+- L'héberge tant dans `assets/` qu'on veut, le chemin est relatif à `index.html` (`assets/images/fond.jpg` par exemple).
+- Si `config.json` est illisible (double-clic en `file://`, fichier absent ou invalide), les valeurs par défaut s'appliquent en silence : mention affichée, fond étoiles conservé. Comme pour les projets, lire `config.json` suppose un serveur local (`./demarrer.sh`) ou l'hébergement.
+- Le canvas (étoiles + balise radar) est stoppé et masqué tant que le fond image est actif ; `resumeCanvas` ne le relance pas.
+
+---
