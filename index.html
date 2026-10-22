@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NoRushJustChat — Portfolio Aviation &amp; Roblox Studio</title>
+  <title>NoRushJustChat — Aviation &amp; Roblox Studio Portfolio</title>
 
-  <meta name="description" content="Portfolio de NoRushJustChat : lycéen passionné d'aéronautique, titulaire du BIA mention Très Bien, et développeur de jeux sur Roblox Studio en Luau.">
+  <meta name="description" content="NoRushJustChat's portfolio: a high-school student passionate about aviation, holder of the BIA with highest honours, and a Roblox Studio game developer in Luau.">
   <meta name="author" content="NoRushJustChat">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="NoRushJustChat — Portfolio Aviation &amp; Roblox Studio">
-  <meta property="og:description" content="Projets Roblox Studio, parcours aéronautique, BIA mention Très Bien et réalisations techniques.">
-  <meta property="og:image" content="assets/images/project-roblox-1.svg">
+  <meta property="og:title" content="NoRushJustChat — Aviation &amp; Roblox Studio Portfolio">
+  <meta property="og:description" content="Roblox Studio projects, an aviation background, the BIA with highest honours and technical achievements.">
+  <meta property="og:image" content="assets/images/project-roblox-1-en.svg">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NoRushJustChat — Portfolio">
-  <meta name="twitter:description" content="Lycéen passionné d'aviation et développeur Roblox Studio.">
+  <meta name="twitter:description" content="High-school student passionate about aviation and Roblox Studio developer.">
 
   <!-- Polices Google Fonts avec fallback système immédiat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
+  <script defer src="lang.js"></script>
   <script defer src="script.js"></script>
 </head>
 <body>
@@ -38,7 +39,7 @@
         <div class="loader-progress-fill" id="loader-fill"></div>
       </div>
       <div class="loader-text">
-        <span class="loader-status">INITIALISATION COCKPIT</span>
+        <span class="loader-status" data-i18n="loader.status">COCKPIT INITIALISATION</span>
         <span class="loader-pct" id="loader-pct">0%</span>
       </div>
     </div>
@@ -68,7 +69,7 @@
   <!-- Barre de navigation sticky -->
   <header class="site-header" id="header">
     <div class="header-container">
-      <a href="#hero" class="brand" aria-label="Retour en haut de page">
+      <a href="#hero" class="brand" aria-label="Back to top" data-i18n-aria-label="brand.home">
         <span class="brand-radar">
           <span class="radar-dot"></span>
           <span class="radar-wave"></span>
@@ -77,24 +78,37 @@
         <span class="brand-badge">FLIGHT LOG</span>
       </a>
 
-      <!-- Bouton menu mobile -->
-      <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="primary-nav">
-        <span class="toggle-bar"></span>
-        <span class="toggle-bar"></span>
-        <span class="toggle-bar"></span>
-      </button>
+      <div class="header-actions">
+        <!-- Navigation principale -->
+        <nav class="primary-nav" id="primary-nav" aria-label="Main navigation" data-i18n-aria-label="nav.main">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="#about" class="nav-link" data-i18n="nav.about">About</a></li>
+            <li class="nav-item"><a href="#parcours" class="nav-link" data-i18n="nav.journey">Journey</a></li>
+            <li class="nav-item"><a href="#projets" class="nav-link" data-i18n="nav.projects">Projects</a></li>
+            <li class="nav-item"><a href="#competences" class="nav-link" data-i18n="nav.skills">Skills</a></li>
+            <li class="nav-item"><a href="#passions" class="nav-link" data-i18n="nav.interests">Interests</a></li>
+            <li class="nav-item"><a href="#contact" class="nav-link nav-cta" data-i18n="nav.contact">Contact</a></li>
+          </ul>
+        </nav>
 
-      <!-- Navigation principale -->
-      <nav class="primary-nav" id="primary-nav" aria-label="Navigation principale">
-        <ul class="nav-list">
-          <li class="nav-item"><a href="#about" class="nav-link">À propos</a></li>
-          <li class="nav-item"><a href="#parcours" class="nav-link">Parcours</a></li>
-          <li class="nav-item"><a href="#projets" class="nav-link">Projets</a></li>
-          <li class="nav-item"><a href="#competences" class="nav-link">Compétences</a></li>
-          <li class="nav-item"><a href="#passions" class="nav-link">Centres d'intérêt</a></li>
-          <li class="nav-item"><a href="#contact" class="nav-link nav-cta">Contact</a></li>
-        </ul>
-      </nav>
+        <!-- Sélecteur de langue FR / EN -->
+        <button type="button" class="lang-toggle" id="lang-toggle" aria-label="Switch to French" title="Switch to French">
+          <svg class="lang-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path>
+          </svg>
+          <span class="lang-code" data-lang-option="fr">FR</span>
+          <span class="lang-sep" aria-hidden="true">/</span>
+          <span class="lang-code is-active" data-lang-option="en">EN</span>
+        </button>
+
+        <!-- Bouton menu mobile -->
+        <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav" data-i18n-aria-label="nav.openMenu">
+          <span class="toggle-bar"></span>
+          <span class="toggle-bar"></span>
+          <span class="toggle-bar"></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -104,30 +118,30 @@
       <div class="hero-container">
         <div class="hero-badge">
           <span class="pulse-dot"></span>
-          <span class="hero-badge-label">SYSTÈMES PRÊTS • PROMOTION <span data-year>2026</span></span>
+          <span class="hero-badge-label"><span data-i18n="hero.badge">SYSTEMS READY • CLASS OF</span> <span data-year>2026</span></span>
         </div>
 
         <h1 class="hero-title">
           <span class="hero-name">NoRushJustChat</span>
         </h1>
 
-        <p class="hero-subtitle">
-          Passionné d'aviation • Développeur Roblox Studio
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          Aviation enthusiast • Roblox Studio developer
         </p>
 
-        <p class="hero-text">
-          Lycéen curieux et méthodique. Titulaire du Brevet d'Initiation Aéronautique mention Très Bien, je m'intéresse à la mécanique de vol et je développe des jeux complets en Luau sur Roblox Studio.
+        <p class="hero-text" data-i18n="hero.text">
+          A curious and methodical high-school student. Holder of the French Aeronautical Initiation Certificate (BIA) with highest honours, I am fascinated by flight mechanics and build complete games in Luau on Roblox Studio.
         </p>
 
         <div class="hero-actions">
           <a href="#projets" class="btn btn-primary">
-            <span>Voir mes projets</span>
+            <span data-i18n="hero.ctaProjects">View my projects</span>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
           <a href="#parcours" class="btn btn-secondary">
-            <span>Découvrir mon parcours</span>
+            <span data-i18n="hero.ctaJourney">Explore my journey</span>
           </a>
         </div>
 
@@ -135,32 +149,32 @@
         <div class="telemetry-grid">
           <div class="telemetry-card">
             <div class="telemetry-number" data-target="2">0</div>
-            <div class="telemetry-tag">Excellence</div>
-            <div class="telemetry-desc">Mentions Très Bien (BIA et Brevet)</div>
+            <div class="telemetry-tag" data-i18n="hero.stat1Tag">Excellence</div>
+            <div class="telemetry-desc" data-i18n="hero.stat1Desc">Highest honours (BIA and Brevet)</div>
           </div>
 
           <div class="telemetry-card">
             <div class="telemetry-number" data-target="1">0</div>
-            <div class="telemetry-tag">Atelier</div>
-            <div class="telemetry-desc">Stage (Air France Industries)</div>
+            <div class="telemetry-tag" data-i18n="hero.stat2Tag">Workshop</div>
+            <div class="telemetry-desc" data-i18n="hero.stat2Desc">Internship (Air France Industries)</div>
           </div>
 
           <div class="telemetry-card">
             <div class="telemetry-number" data-target="4">0</div>
-            <div class="telemetry-tag">Technique</div>
-            <div class="telemetry-desc">Projets présentés (Luau et Web)</div>
+            <div class="telemetry-tag" data-i18n="hero.stat3Tag">Technical</div>
+            <div class="telemetry-desc" data-i18n="hero.stat3Desc">Featured projects (Luau and Web)</div>
           </div>
 
           <div class="telemetry-card">
             <div class="telemetry-number" data-target="100" data-suffix="%">0%</div>
-            <div class="telemetry-tag">Implication</div>
-            <div class="telemetry-desc">Régularité et envie d'apprendre</div>
+            <div class="telemetry-tag" data-i18n="hero.stat4Tag">Commitment</div>
+            <div class="telemetry-desc" data-i18n="hero.stat4Desc">Consistency and eagerness to learn</div>
           </div>
         </div>
       </div>
 
-      <a href="#about" class="scroll-down" aria-label="Défiler vers la section À propos">
-        <span class="scroll-down-label">DÉFILER</span>
+      <a href="#about" class="scroll-down" aria-label="Scroll to the About section" data-i18n-aria-label="hero.scrollAria">
+        <span class="scroll-down-label" data-i18n="hero.scrollLabel">SCROLL</span>
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="scroll-arrow" aria-hidden="true">
           <path d="M12 5v14M5 12l7 7 7-7"/>
         </svg>
@@ -171,42 +185,42 @@
     <section id="about" class="section about-section">
       <div class="section-container">
         <div class="section-heading">
-          <span class="section-pretitle">PRÉSENTATION</span>
-          <h2 class="section-title">Profil &amp; Démarche</h2>
-          <p class="section-lead">Une approche orientée vers la technique, la compréhension des machines et la rigueur.</p>
+          <span class="section-pretitle" data-i18n="about.pretitle">INTRODUCTION</span>
+          <h2 class="section-title" data-i18n="about.title">Profile &amp; Approach</h2>
+          <p class="section-lead" data-i18n="about.lead">A technical mindset focused on understanding machines and working rigorously.</p>
         </div>
 
         <div class="about-grid">
           <div class="about-profile-card">
             <div class="cockpit-tag">NORUSHJUSTCHAT</div>
-            <h3 class="about-card-title">Lycéen, bricoleur et créateur de jeux</h3>
+            <h3 class="about-card-title" data-i18n="about.cardTitle">High-school student, maker and game developer</h3>
 
-            <p>
-              Je m'investis pleinement dans mes études avec de solides retours de mes enseignants sur mon sérieux et ma méthode. L'aéronautique m'attire particulièrement : j'aime savoir comment un avion vole, comment les réacteurs fonctionnent et comment les équipes au sol garantissent la sécurité de chaque départ.
+            <p data-i18n="about.p1">
+              I put my full effort into my studies, and my teachers consistently highlight my diligence and method. Aviation particularly appeals to me: I want to understand how a plane flies, how jet engines work and how ground crews keep every departure safe.
             </p>
-            <p>
-              En dehors des cours, je passe mon temps sur deux activités complémentaires : le bricolage mécanique pratique et la programmation en Luau sur Roblox Studio. Le code me permet de tester mes idées de systèmes de jeu, d'interfaces et de physique en direct.
+            <p data-i18n="about.p2">
+              Outside class, I spend my time on two complementary activities: hands-on mechanical work and programming in Luau on Roblox Studio. Code lets me test my ideas for game systems, interfaces and physics in real time.
             </p>
-            <p>
-              Mon objectif est de continuer à apprendre pour m'orienter vers les métiers techniques et d'ingénierie du secteur aéronautique.
+            <p data-i18n="about.p3">
+              My goal is to keep learning so I can move towards technical and engineering careers in aviation.
             </p>
 
             <div class="about-strengths">
               <div class="strength-chip">
                 <span class="strength-icon">✈️</span>
-                <span>BIA validé mention Très Bien</span>
+                <span data-i18n="about.chip1">BIA passed with highest honours</span>
               </div>
               <div class="strength-chip">
                 <span class="strength-icon">🔧</span>
-                <span>Dextérité manuelle et mécanique</span>
+                <span data-i18n="about.chip2">Manual and mechanical dexterity</span>
               </div>
               <div class="strength-chip">
                 <span class="strength-icon">💻</span>
-                <span>Développement Roblox Studio (Luau)</span>
+                <span data-i18n="about.chip3">Roblox Studio development (Luau)</span>
               </div>
               <div class="strength-chip">
                 <span class="strength-icon">🎯</span>
-                <span>Rigueur et rapidité d'exécution</span>
+                <span data-i18n="about.chip4">Rigour and speed of execution</span>
               </div>
             </div>
           </div>
@@ -217,9 +231,9 @@
                 <img class="icon" src="assets/icons/plane.svg" alt="" aria-hidden="true">
               </div>
               <div class="point-info">
-                <h4 class="point-title">Discipline de l'aviation</h4>
-                <p class="point-text">
-                  L'aéronautique exige de la clarté et aucune place pour le hasard. J'applique cette règle à mon travail scolaire et à mes projets personnels.
+                <h4 class="point-title" data-i18n="about.point1Title">Aviation discipline</h4>
+                <p class="point-text" data-i18n="about.point1Text">
+                  Aviation demands clarity and leaves no room for chance. I apply that rule to my schoolwork and personal projects.
                 </p>
               </div>
             </div>
@@ -229,9 +243,9 @@
                 <img class="icon" src="assets/icons/code.svg" alt="" aria-hidden="true">
               </div>
               <div class="point-info">
-                <h4 class="point-title">Logique logicielle</h4>
-                <p class="point-text">
-                  Sur Roblox Studio, je structure des scripts modulaires, gère la physique multijoueur et conçois des interfaces adaptées aux joueurs.
+                <h4 class="point-title" data-i18n="about.point2Title">Software logic</h4>
+                <p class="point-text" data-i18n="about.point2Text">
+                  On Roblox Studio, I structure modular scripts, handle multiplayer physics and design player-friendly interfaces.
                 </p>
               </div>
             </div>
@@ -241,9 +255,9 @@
                 <img class="icon" src="assets/icons/tools.svg" alt="" aria-hidden="true">
               </div>
               <div class="point-info">
-                <h4 class="point-title">Expérience concrète en atelier</h4>
-                <p class="point-text">
-                  Mon stage chez Air France Industries m'a permis de manipuler l'outillage professionnel et d'observer des interventions de maintenance réelles.
+                <h4 class="point-title" data-i18n="about.point3Title">Hands-on workshop experience</h4>
+                <p class="point-text" data-i18n="about.point3Text">
+                  My internship at Air France Industries let me handle professional tools and observe real maintenance work.
                 </p>
               </div>
             </div>
@@ -256,9 +270,9 @@
     <section id="parcours" class="section parcours-section">
       <div class="section-container">
         <div class="section-heading">
-          <span class="section-pretitle">CHRONOLOGIE</span>
-          <h2 class="section-title">Parcours &amp; Expériences</h2>
-          <p class="section-lead">Formations, immersions professionnelles et étapes marquantes. Continuez à défiler vers le bas : la chronologie se déroule alors vers la droite.</p>
+          <span class="section-pretitle" data-i18n="timeline.pretitle">TIMELINE</span>
+          <h2 class="section-title" data-i18n="timeline.title">Journey &amp; Experience</h2>
+          <p class="section-lead" data-i18n="timeline.lead">Education, professional immersions and key milestones. Keep scrolling down: the timeline then moves to the right.</p>
         </div>
       </div>
 
@@ -273,19 +287,19 @@
               <div class="timeline-marker" aria-hidden="true"></div>
               <div class="timeline-content">
                 <div class="timeline-top">
-                  <span class="timeline-type type-exam">Diplôme aéronautique</span>
-                  <span class="timeline-period">Examen officiel</span>
+                  <span class="timeline-type type-exam" data-i18n="timeline.bia.type">Aeronautical diploma</span>
+                  <span class="timeline-period" data-i18n="timeline.bia.period">Official exam</span>
                 </div>
-                <h3 class="timeline-heading">Brevet d'Initiation Aéronautique (BIA)</h3>
-                <div class="timeline-result">Mention Très Bien</div>
-                <p class="timeline-summary">
-                  Étude approfondie de cinq domaines clés : aérodynamique et mécanique du vol, connaissance des aéronefs, météorologie, navigation et histoire de l'aviation.
+                <h3 class="timeline-heading" data-i18n="timeline.bia.heading">Aeronautical Initiation Certificate (BIA)</h3>
+                <div class="timeline-result" data-i18n="timeline.bia.result">Highest honours</div>
+                <p class="timeline-summary" data-i18n="timeline.bia.summary">
+                  In-depth study of five key areas: aerodynamics and flight mechanics, aircraft knowledge, meteorology, navigation and the history of aviation.
                 </p>
                 <div class="tag-row">
-                  <span class="tag">Mécanique du vol</span>
-                  <span class="tag">Météorologie</span>
-                  <span class="tag">Navigation</span>
-                  <span class="tag">Réglementation</span>
+                  <span class="tag" data-i18n="timeline.bia.tag1">Flight mechanics</span>
+                  <span class="tag" data-i18n="timeline.bia.tag2">Meteorology</span>
+                  <span class="tag" data-i18n="timeline.bia.tag3">Navigation</span>
+                  <span class="tag" data-i18n="timeline.bia.tag4">Regulations</span>
                 </div>
               </div>
             </article>
@@ -295,19 +309,19 @@
               <div class="timeline-marker" aria-hidden="true"></div>
               <div class="timeline-content">
                 <div class="timeline-top">
-                  <span class="timeline-type type-stage">Stage en entreprise</span>
-                  <span class="timeline-period">Classe de 2de</span>
+                  <span class="timeline-type type-stage" data-i18n="timeline.afi.type">Company internship</span>
+                  <span class="timeline-period" data-i18n="timeline.afi.period">10th grade</span>
                 </div>
                 <h3 class="timeline-heading">Air France Industries</h3>
-                <div class="timeline-result">Découverte de la maintenance aéronautique</div>
-                <p class="timeline-summary">
-                  Observation des équipes techniques en atelier et en hangar : protocoles d'entretien des turboréacteurs, vérifications de navigabilité, outillage spécifique et logistique de pièces de rechange.
+                <div class="timeline-result" data-i18n="timeline.afi.result">Introduction to aircraft maintenance</div>
+                <p class="timeline-summary" data-i18n="timeline.afi.summary">
+                  Observation of technical teams in the workshop and hangar: jet engine servicing procedures, airworthiness checks, specialist tooling and spare-parts logistics.
                 </p>
                 <div class="tag-row">
-                  <span class="tag">Maintenance MRO</span>
-                  <span class="tag">Moteurs d'avions</span>
-                  <span class="tag">Sécurité des vols</span>
-                  <span class="tag">Travail en équipe</span>
+                  <span class="tag" data-i18n="timeline.afi.tag1">MRO maintenance</span>
+                  <span class="tag" data-i18n="timeline.afi.tag2">Aircraft engines</span>
+                  <span class="tag" data-i18n="timeline.afi.tag3">Flight safety</span>
+                  <span class="tag" data-i18n="timeline.afi.tag4">Teamwork</span>
                 </div>
               </div>
             </article>
@@ -317,19 +331,19 @@
               <div class="timeline-marker" aria-hidden="true"></div>
               <div class="timeline-content">
                 <div class="timeline-top">
-                  <span class="timeline-type type-flight">Vol réel</span>
-                  <span class="timeline-period">Aéroclub</span>
+                  <span class="timeline-type type-flight" data-i18n="timeline.flights.type">Real flight</span>
+                  <span class="timeline-period" data-i18n="timeline.flights.period">Flying club</span>
                 </div>
-                <h3 class="timeline-heading">Baptêmes de l'Air &amp; Vols de Découverte</h3>
-                <div class="timeline-result">Premières prises de commandes</div>
-                <p class="timeline-summary">
-                  Plusieurs vols avec instructeur aux commandes d'un avion léger : visite prévol complète, roulage au sol, maintien d'altitude, virages coordonnés et surveillance des instruments de bord.
+                <h3 class="timeline-heading" data-i18n="timeline.flights.heading">Introductory &amp; Discovery Flights</h3>
+                <div class="timeline-result" data-i18n="timeline.flights.result">First time at the controls</div>
+                <p class="timeline-summary" data-i18n="timeline.flights.summary">
+                  Several flights with an instructor at the controls of a light aircraft: full pre-flight inspection, taxiing, holding altitude, coordinated turns and monitoring the flight instruments.
                 </p>
                 <div class="tag-row">
-                  <span class="tag">Visite prévol</span>
-                  <span class="tag">Pilotage de base</span>
-                  <span class="tag">Lecture instruments</span>
-                  <span class="tag">Communication radio</span>
+                  <span class="tag" data-i18n="timeline.flights.tag1">Pre-flight inspection</span>
+                  <span class="tag" data-i18n="timeline.flights.tag2">Basic piloting</span>
+                  <span class="tag" data-i18n="timeline.flights.tag3">Instrument reading</span>
+                  <span class="tag" data-i18n="timeline.flights.tag4">Radio communication</span>
                 </div>
               </div>
             </article>
@@ -339,25 +353,25 @@
               <div class="timeline-marker" aria-hidden="true"></div>
               <div class="timeline-content">
                 <div class="timeline-top">
-                  <span class="timeline-type type-exam">Diplôme national</span>
-                  <span class="timeline-period">Collège</span>
+                  <span class="timeline-type type-exam" data-i18n="timeline.brevet.type">National diploma</span>
+                  <span class="timeline-period" data-i18n="timeline.brevet.period">Middle school</span>
                 </div>
-                <h3 class="timeline-heading">Diplôme National du Brevet &amp; ASSR 1</h3>
-                <div class="timeline-result">Mention Très Bien</div>
-                <p class="timeline-summary">
-                  Validation du brevet des collèges avec la plus haute mention, confirmant un travail méthodique et continu dans toutes les matières.
+                <h3 class="timeline-heading" data-i18n="timeline.brevet.heading">French National Brevet &amp; ASSR 1</h3>
+                <div class="timeline-result" data-i18n="timeline.brevet.result">Highest honours</div>
+                <p class="timeline-summary" data-i18n="timeline.brevet.summary">
+                  Passed the French middle-school certificate with the highest honours, confirming methodical and consistent work across all subjects.
                 </p>
                 <div class="tag-row">
-                  <span class="tag">Mention Très Bien</span>
-                  <span class="tag">ASSR 1</span>
-                  <span class="tag">Régularité</span>
+                  <span class="tag" data-i18n="timeline.brevet.tag1">Highest honours</span>
+                  <span class="tag" data-i18n="timeline.brevet.tag2">ASSR 1</span>
+                  <span class="tag" data-i18n="timeline.brevet.tag3">Consistency</span>
                 </div>
               </div>
             </article>
           </div>
 
           <div class="timeline-hint" id="timeline-hint" aria-hidden="true">
-            <span>Défilez vers la droite</span>
+            <span data-i18n="timeline.hint">Scroll to the right</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
@@ -370,15 +384,15 @@
     <section id="projets" class="section projets-section">
       <div class="section-container">
         <div class="section-heading">
-          <span class="section-pretitle">RÉALISATIONS</span>
-          <h2 class="section-title">Projets Développés</h2>
-          <p class="section-lead">Créations sur Roblox Studio (scripts Luau) et outil web d'investigation aéronautique.</p>
-          <p class="projects-placeholder">Ces projets sont des placeholders : ce ne sont pas de vrais projets.</p>
+          <span class="section-pretitle" data-i18n="projects.pretitle">WORK</span>
+          <h2 class="section-title" data-i18n="projects.title">Projects Built</h2>
+          <p class="section-lead" data-i18n="projects.lead">Creations on Roblox Studio (Luau scripts) and a web-based aviation investigation tool.</p>
+          <p class="projects-placeholder" data-i18n="projects.placeholder">These projects are placeholders: they are not real projects.</p>
         </div>
 
         <!-- Oglets de filtre : générés par script.js à partir des
              catégories des fichiers assets/projects/*.json -->
-        <div class="filter-controls" id="filter-controls" role="tablist" aria-label="Filtrer les projets">
+        <div class="filter-controls" id="filter-controls" role="tablist" aria-label="Filter projects" data-i18n-aria-label="projects.filterAria">
           <!-- Injecté dynamiquement par script.js -->
         </div>
 
@@ -397,9 +411,9 @@
     <section id="competences" class="section competences-section">
       <div class="section-container">
         <div class="section-heading">
-          <span class="section-pretitle">SAVOIR-FAIRE</span>
-          <h2 class="section-title">Compétences Techniques &amp; Savoir-Être</h2>
-          <p class="section-lead">Des bases techniques concrètes combinées à une forte capacité d'adaptation.</p>
+          <span class="section-pretitle" data-i18n="skills.pretitle">EXPERTISE</span>
+          <h2 class="section-title" data-i18n="skills.title">Technical Skills &amp; Soft Skills</h2>
+          <p class="section-lead" data-i18n="skills.lead">Solid hands-on technical foundations combined with strong adaptability.</p>
         </div>
 
         <div class="skills-columns">
@@ -407,52 +421,52 @@
           <div class="skills-panel">
             <div class="panel-header">
               <span class="panel-icon">💻</span>
-              <h3 class="panel-title">Compétences Techniques</h3>
+              <h3 class="panel-title" data-i18n="skills.techTitle">Technical Skills</h3>
             </div>
 
             <div class="meter-list">
               <div class="meter-item">
                 <div class="meter-head">
-                  <span class="meter-name">Roblox Studio &amp; Scripting Luau</span>
+                  <span class="meter-name" data-i18n="skills.m1Name">Roblox Studio &amp; Luau Scripting</span>
                   <span class="meter-val">88%</span>
                 </div>
                 <div class="meter-rail">
                   <div class="meter-bar" data-score="88"></div>
                 </div>
-                <span class="meter-notes">Modélisation de logique de jeu, architecture client-serveur, interfaces Tween et physique</span>
+                <span class="meter-notes" data-i18n="skills.m1Notes">Game logic modelling, client-server architecture, Tween interfaces and physics</span>
               </div>
 
               <div class="meter-item">
                 <div class="meter-head">
-                  <span class="meter-name">Aisance Mécanique &amp; Bricolage</span>
+                  <span class="meter-name" data-i18n="skills.m2Name">Mechanical Skills &amp; DIY</span>
                   <span class="meter-val">85%</span>
                 </div>
                 <div class="meter-rail">
                   <div class="meter-bar" data-score="85"></div>
                 </div>
-                <span class="meter-notes">Utilisation des outils d'atelier, diagnostic d'organes mécaniques, assemblage et montage</span>
+                <span class="meter-notes" data-i18n="skills.m2Notes">Use of workshop tools, diagnosis of mechanical components, assembly and fitting</span>
               </div>
 
               <div class="meter-item">
                 <div class="meter-head">
-                  <span class="meter-name">Bases Informatiques &amp; Logique Système</span>
+                  <span class="meter-name" data-i18n="skills.m3Name">Computer Basics &amp; System Logic</span>
                   <span class="meter-val">82%</span>
                 </div>
                 <div class="meter-rail">
                   <div class="meter-bar" data-score="82"></div>
                 </div>
-                <span class="meter-notes">Environnement Linux et Windows, notions de Git, structure de données, HTML/CSS de base</span>
+                <span class="meter-notes" data-i18n="skills.m3Notes">Linux and Windows environments, Git basics, data structures, basic HTML/CSS</span>
               </div>
 
               <div class="meter-item">
                 <div class="meter-head">
-                  <span class="meter-name">Théorie Aéronautique (BIA)</span>
+                  <span class="meter-name" data-i18n="skills.m4Name">Aeronautical Theory (BIA)</span>
                   <span class="meter-val">92%</span>
                 </div>
                 <div class="meter-rail">
                   <div class="meter-bar" data-score="92"></div>
                 </div>
-                <span class="meter-notes">Principes de sustentation, météorologie de vol, instruments gyroscopiques et altimétriques</span>
+                <span class="meter-notes" data-i18n="skills.m4Notes">Principles of lift, flight meteorology, gyroscopic and altimetric instruments</span>
               </div>
             </div>
           </div>
@@ -461,39 +475,39 @@
           <div class="skills-panel">
             <div class="panel-header">
               <span class="panel-icon">⭐</span>
-              <h3 class="panel-title">Savoir-Être &amp; Comportement</h3>
+              <h3 class="panel-title" data-i18n="skills.softTitle">Soft Skills &amp; Attitude</h3>
             </div>
 
             <div class="qualities-list">
               <div class="quality-card">
                 <div class="quality-num">01</div>
                 <div class="quality-body">
-                  <h4 class="quality-title">Curiosité et volonté d'apprendre</h4>
-                  <p class="quality-text">Je cherche toujours à comprendre le fonctionnement interne des systèmes pour progresser rapidement.</p>
+                  <h4 class="quality-title" data-i18n="skills.q1Title">Curiosity and willingness to learn</h4>
+                  <p class="quality-text" data-i18n="skills.q1Text">I always try to understand how systems work internally so I can improve quickly.</p>
                 </div>
               </div>
 
               <div class="quality-card">
                 <div class="quality-num">02</div>
                 <div class="quality-body">
-                  <h4 class="quality-title">Sérieux et rigueur</h4>
-                  <p class="quality-text">Habitude d'un travail soigné, vérifié étape par étape selon les consignes reçues.</p>
+                  <h4 class="quality-title" data-i18n="skills.q2Title">Diligence and rigour</h4>
+                  <p class="quality-text" data-i18n="skills.q2Text">Used to careful work, checked step by step against the instructions received.</p>
                 </div>
               </div>
 
               <div class="quality-card">
                 <div class="quality-num">03</div>
                 <div class="quality-body">
-                  <h4 class="quality-title">Dynamisme et réactivité</h4>
-                  <p class="quality-text">Toujours prêt à agir et à chercher des solutions directes en cas de problème ou d'imprévu.</p>
+                  <h4 class="quality-title" data-i18n="skills.q3Title">Energy and responsiveness</h4>
+                  <p class="quality-text" data-i18n="skills.q3Text">Always ready to act and find direct solutions when a problem or unexpected event arises.</p>
                 </div>
               </div>
 
               <div class="quality-card">
                 <div class="quality-num">04</div>
                 <div class="quality-body">
-                  <h4 class="quality-title">Rapidité d'exécution</h4>
-                  <p class="quality-text">Assimilation directe des consignes pour livrer un travail propre sans perdre de temps.</p>
+                  <h4 class="quality-title" data-i18n="skills.q4Title">Fast execution</h4>
+                  <p class="quality-text" data-i18n="skills.q4Text">Quickly absorbing instructions to deliver clean work without wasting time.</p>
                 </div>
               </div>
             </div>
@@ -506,23 +520,23 @@
     <section id="passions" class="section passions-section">
       <div class="section-container">
         <div class="section-heading">
-          <span class="section-pretitle">OUVERTURE</span>
-          <h2 class="section-title">Langues &amp; Centres d'Intérêt</h2>
-          <p class="section-lead">Centres d'intérêt personnels et compétences linguistiques.</p>
+          <span class="section-pretitle" data-i18n="passions.pretitle">BEYOND SCHOOL</span>
+          <h2 class="section-title" data-i18n="passions.title">Languages &amp; Interests</h2>
+          <p class="section-lead" data-i18n="passions.lead">Personal interests and language skills.</p>
         </div>
 
         <div class="interests-layout">
           <!-- Bloc Langues -->
           <div class="card-box">
             <h3 class="box-heading">
-              <span>Langues pratiquées</span>
+              <span data-i18n="passions.languagesTitle">Languages</span>
             </h3>
 
             <div class="lang-list">
               <div class="lang-row">
                 <div class="lang-meta">
-                  <span class="lang-name">Français</span>
-                  <span class="lang-rank">Langue maternelle</span>
+                  <span class="lang-name" data-i18n="languages.frenchName">French</span>
+                  <span class="lang-rank" data-i18n="languages.frenchRank">Native language</span>
                 </div>
                 <div class="lang-line">
                   <div class="lang-gauge" style="width: 100%;"></div>
@@ -531,8 +545,8 @@
 
               <div class="lang-row">
                 <div class="lang-meta">
-                  <span class="lang-name">Anglais</span>
-                  <span class="lang-rank">Niveau scolaire (lecture fluide de documentation technique)</span>
+                  <span class="lang-name" data-i18n="languages.englishName">English</span>
+                  <span class="lang-rank" data-i18n="languages.englishRank">School level (fluent reading of technical documentation)</span>
                 </div>
                 <div class="lang-line">
                   <div class="lang-gauge" style="width: 70%;"></div>
@@ -541,8 +555,8 @@
 
               <div class="lang-row">
                 <div class="lang-meta">
-                  <span class="lang-name">Espagnol</span>
-                  <span class="lang-rank">Niveau scolaire</span>
+                  <span class="lang-name" data-i18n="languages.spanishName">Spanish</span>
+                  <span class="lang-rank" data-i18n="languages.spanishRank">School level</span>
                 </div>
                 <div class="lang-line">
                   <div class="lang-gauge" style="width: 55%;"></div>
@@ -554,39 +568,39 @@
           <!-- Bloc Centres d'intérêt -->
           <div class="card-box">
             <h3 class="box-heading">
-              <span>Centres d'intérêt</span>
+              <span data-i18n="passions.interestsTitle">Interests</span>
             </h3>
 
             <div class="hobbies-grid">
               <div class="hobby-card">
                 <span class="hobby-emoji">✈️</span>
                 <div class="hobby-details">
-                  <h4 class="hobby-title">Aviation &amp; Ingénierie</h4>
-                  <p class="hobby-desc">Avions de ligne, moteurs à réaction, aérodynamique et reconstitution d'incidents.</p>
+                  <h4 class="hobby-title" data-i18n="hobbies.h1Title">Aviation &amp; Engineering</h4>
+                  <p class="hobby-desc" data-i18n="hobbies.h1Desc">Airliners, jet engines, aerodynamics and accident reconstruction.</p>
                 </div>
               </div>
 
               <div class="hobby-card">
                 <span class="hobby-emoji">🔧</span>
                 <div class="hobby-details">
-                  <h4 class="hobby-title">Mécanique &amp; Bricolage</h4>
-                  <p class="hobby-desc">Fonctionnement des moteurs, démontage, réparation d'outils et travail du métal/bois.</p>
+                  <h4 class="hobby-title" data-i18n="hobbies.h2Title">Mechanics &amp; DIY</h4>
+                  <p class="hobby-desc" data-i18n="hobbies.h2Desc">How engines work, disassembly, tool repair and metal/wood work.</p>
                 </div>
               </div>
 
               <div class="hobby-card">
                 <span class="hobby-emoji">🎮</span>
                 <div class="hobby-details">
-                  <h4 class="hobby-title">Création Roblox Studio</h4>
-                  <p class="hobby-desc">Conception de game design, scripts Luau, création de mécaniques et d'interfaces.</p>
+                  <h4 class="hobby-title" data-i18n="hobbies.h3Title">Roblox Studio Creation</h4>
+                  <p class="hobby-desc" data-i18n="hobbies.h3Desc">Game design, Luau scripts, building mechanics and interfaces.</p>
                 </div>
               </div>
 
               <div class="hobby-card">
                 <span class="hobby-emoji">💻</span>
                 <div class="hobby-details">
-                  <h4 class="hobby-title">Informatique pratique</h4>
-                  <p class="hobby-desc">Configuration système, programmation, curiosité pour les technologies numériques.</p>
+                  <h4 class="hobby-title" data-i18n="hobbies.h4Title">Practical Computing</h4>
+                  <p class="hobby-desc" data-i18n="hobbies.h4Desc">System configuration, programming and curiosity about digital technologies.</p>
                 </div>
               </div>
             </div>
@@ -599,28 +613,28 @@
     <section id="contact" class="section contact-section">
       <div class="section-container">
         <div class="section-heading">
-          <span class="section-pretitle">COMMUNICATION</span>
-          <h2 class="section-title">Prendre Contact</h2>
-          <p class="section-lead">Pour échanger sur un projet, une formation ou une opportunité technique.</p>
+          <span class="section-pretitle" data-i18n="contact.pretitle">GET IN TOUCH</span>
+          <h2 class="section-title" data-i18n="contact.title">Get in Touch</h2>
+          <p class="section-lead" data-i18n="contact.lead">To discuss a project, a course or a technical opportunity.</p>
         </div>
 
         <div class="contact-layout">
           <!-- Colonne gauche : infos directes et réseaux -->
           <div class="contact-sidebar">
             <div class="contact-tile">
-              <span class="tile-label">CANAL E-MAIL</span>
-              <p class="tile-note">Placeholder à remplacer par votre e-mail avant publication :</p>
+              <span class="tile-label" data-i18n="contact.emailLabel">EMAIL CHANNEL</span>
+              <p class="tile-note" data-i18n="contact.emailNote">Placeholder to replace with your email before publishing:</p>
 
               <div class="email-box">
-                <span class="email-text" id="target-email">TON_EMAIL_ICI</span>
-                <button type="button" class="btn-copy" id="copy-email-btn" aria-label="Copier l'adresse de contact">
-                  <span id="copy-btn-text">Copier</span>
+                <span class="email-text" id="target-email" data-i18n="contact.emailPlaceholder">YOUR_EMAIL_HERE</span>
+                <button type="button" class="btn-copy" id="copy-email-btn" aria-label="Copy contact address" data-i18n-aria-label="contact.copyAria">
+                  <span id="copy-btn-text" data-i18n="contact.copy">Copy</span>
                 </button>
               </div>
             </div>
 
             <div class="contact-tile">
-              <span class="tile-label">PROFILS &amp; LIENS</span>
+              <span class="tile-label" data-i18n="contact.profilesLabel">PROFILES &amp; LINKS</span>
               <div class="profile-links">
                 <!-- Roblox -->
                 <a href="https://www.roblox.com/users/TON_ID_ROBLOX/profile" target="_blank" rel="noopener noreferrer" class="link-item link-roblox">
@@ -649,32 +663,32 @@
           <!-- Formulaire de contact -->
           <div class="contact-main">
             <form id="contact-form" class="form-card" action="https://formspree.io/f/TON_FORM_ID" method="POST">
-              <h3 class="form-title">Envoyer un message direct</h3>
+              <h3 class="form-title" data-i18n="contact.formTitle">Send a direct message</h3>
 
               <div class="form-grid">
                 <div class="form-field">
-                  <label for="form-name">Nom ou pseudonyme <span class="required">*</span></label>
-                  <input type="text" id="form-name" name="name" required placeholder="Votre nom" autocomplete="name">
+                  <label for="form-name"><span data-i18n="contact.formName">Name or nickname</span> <span class="required">*</span></label>
+                  <input type="text" id="form-name" name="name" required placeholder="Your name" autocomplete="name" data-i18n-placeholder="contact.formNamePh">
                 </div>
 
                 <div class="form-field">
-                  <label for="form-email">Adresse e-mail <span class="required">*</span></label>
-                  <input type="email" id="form-email" name="email" required placeholder="adresse@domaine.fr" autocomplete="email">
+                  <label for="form-email"><span data-i18n="contact.formEmail">Email address</span> <span class="required">*</span></label>
+                  <input type="email" id="form-email" name="email" required placeholder="name@domain.com" autocomplete="email" data-i18n-placeholder="contact.formEmailPh">
                 </div>
               </div>
 
               <div class="form-field">
-                <label for="form-subject">Sujet <span class="required">*</span></label>
-                <input type="text" id="form-subject" name="subject" required placeholder="Objet de votre message">
+                <label for="form-subject"><span data-i18n="contact.formSubject">Subject</span> <span class="required">*</span></label>
+                <input type="text" id="form-subject" name="subject" required placeholder="Subject of your message" data-i18n-placeholder="contact.formSubjectPh">
               </div>
 
               <div class="form-field">
-                <label for="form-message">Message <span class="required">*</span></label>
-                <textarea id="form-message" name="message" rows="5" required placeholder="Votre message..."></textarea>
+                <label for="form-message"><span data-i18n="contact.formMessage">Message</span> <span class="required">*</span></label>
+                <textarea id="form-message" name="message" rows="5" required placeholder="Your message..." data-i18n-placeholder="contact.formMessagePh"></textarea>
               </div>
 
               <button type="submit" class="btn btn-primary btn-send">
-                <span>Transmettre</span>
+                <span data-i18n="contact.formSend">Send</span>
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow" aria-hidden="true">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -693,13 +707,13 @@
     <div class="footer-container">
       <div class="footer-left">
         <span class="footer-title">NoRushJustChat</span>
-        <p class="footer-tagline">© <span data-year>2026</span> NoRushJustChat — Portfolio statique personnel. BIA mention Très Bien.</p>
+        <p class="footer-tagline" data-i18n-html="footer.taglineHtml">© <span data-year>2026</span> NoRushJustChat — Personal static portfolio. BIA with highest honours.</p>
       </div>
 
       <div class="footer-right">
-        <span class="footer-note">Hébergement statique gratuit sans serveur</span>
-        <a href="#hero" class="to-top-btn" aria-label="Remonter en haut de page">
-          <span>Haut de page</span>
+        <span class="footer-note" data-i18n="footer.note">Free static hosting, no server</span>
+        <a href="#hero" class="to-top-btn" aria-label="Back to top" data-i18n-aria-label="footer.backToTopAria">
+          <span data-i18n="footer.backToTop">Back to top</span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M12 19V5M5 12l7-7 7 7"/>
           </svg>

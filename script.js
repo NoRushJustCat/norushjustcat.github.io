@@ -9,6 +9,17 @@
   'use strict';
 
   // ------------------------------------------------------------------
+  // 0. LANGUES (lang.js expose window.PortfolioI18n)
+  // ------------------------------------------------------------------
+  function currentLang() {
+    return (window.PortfolioI18n && window.PortfolioI18n.lang) || 'en';
+  }
+
+  function t(cle) {
+    return window.PortfolioI18n ? window.PortfolioI18n.t(cle) : cle;
+  }
+
+  // ------------------------------------------------------------------
   // 1. DONNÉES DES PROJETS (fichiers .json séparés)
   //
   // → Ajouter un projet : copier assets/projects/_template.json vers un
@@ -36,7 +47,14 @@
       image: 'assets/images/project-roblox-1.svg',
       link: '#',
       linkText: 'Ouvrir le projet',
-      badge: 'ROBLOX STUDIO'
+      badge: 'ROBLOX STUDIO',
+      en: {
+        title: 'Flight Simulator & Instruments',
+        description: 'Functional virtual cockpit with a real-time HUD, flight instrument readouts and lift physics.',
+        tags: ['Luau', 'OOP', 'Physics', 'HUD'],
+        image: 'assets/images/project-roblox-1-en.svg',
+        linkText: 'Open project'
+      }
     },
     {
       id: 'roblox-2',
@@ -47,7 +65,14 @@
       image: 'assets/images/project-roblox-2.svg',
       link: '#',
       linkText: 'Ouvrir le projet',
-      badge: 'ROBLOX STUDIO'
+      badge: 'ROBLOX STUDIO',
+      en: {
+        title: 'Airport Traffic & Markings',
+        description: 'Ground taxiing management, aircraft guidance to gates and dynamic runway lighting.',
+        tags: ['Luau', 'Pathfinding', 'Lighting', 'UI'],
+        image: 'assets/images/project-roblox-2-en.svg',
+        linkText: 'Open project'
+      }
     },
     {
       id: 'roblox-3',
@@ -58,7 +83,14 @@
       image: 'assets/images/project-roblox-3.svg',
       link: '#',
       linkText: 'Ouvrir le projet',
-      badge: 'ROBLOX STUDIO'
+      badge: 'ROBLOX STUDIO',
+      en: {
+        title: 'AI System & Modular Quests',
+        description: 'State machines for NPCs, modular architecture and client-server synchronisation.',
+        tags: ['Luau', 'AI', 'State Machine', 'Datastore'],
+        image: 'assets/images/project-roblox-3-en.svg',
+        linkText: 'Open project'
+      }
     },
     {
       id: 'aviation-1',
@@ -69,16 +101,23 @@
       image: 'assets/images/project-aviation-web.svg',
       link: '#',
       linkText: 'Voir l’outil',
-      badge: 'AVIATION • WEB'
+      badge: 'AVIATION • WEB',
+      en: {
+        title: 'Aircraft Accident Investigator',
+        description: 'Web tool for analysing flight data: telemetry, event timeline and trajectory visualisation.',
+        tags: ['HTML5', 'Canvas', 'JavaScript', 'Mapping'],
+        image: 'assets/images/project-aviation-web-en.svg',
+        linkText: 'View tool'
+      }
     }
   ];
 
-  // Libellés des onglets de filtre (toute autre catégorie est déduite seule)
-  const LIBELLES_CATEGORIES = {
-    roblox: 'Roblox Studio',
-    aviation: 'Aviation Web',
-    web: 'Web',
-    divers: 'Divers'
+  // Clés i18n des onglets de filtre (toute autre catégorie est déduite seule)
+  const CLES_CATEGORIES = {
+    roblox: 'category.roblox',
+    aviation: 'category.aviation',
+    web: 'category.web',
+    divers: 'category.divers'
   };
 
   // ------------------------------------------------------------------
@@ -524,10 +563,9 @@
       copyBtn.addEventListener('click', () => {
         const text = emailText.textContent.trim();
         navigator.clipboard.writeText(text).then(() => {
-          const original = copyBtnText.textContent;
-          copyBtnText.textContent = 'Copié !';
+          copyBtnText.textContent = t('contact.copied');
           setTimeout(() => {
-            copyBtnText.textContent = original;
+            copyBtnText.textContent = t('contact.copy');
           }, 1500);
         });
       });
@@ -541,12 +579,12 @@
         e.preventDefault();
         if (!feedback) return;
 
-        feedback.textContent = 'Transmission en cours…';
+        feedback.textContent = t('contact.sending');
         feedback.style.color = 'var(--accent-cyan)';
 
         // Simule l’envoi (remplacer par l’action réelle Formspree plus tard)
         setTimeout(() => {
-          feedback.textContent = 'Message envoyé avec succès.';
+          feedback.textContent = t('contact.sent');
           feedback.style.color = 'var(--accent-green)';
           form.reset();
         }, 1200);
@@ -585,6 +623,9 @@
       return null;
     }
 
+    // Traductions anglaises facultatives : {"en": {"title": "...", ...}}
+    const traduction = (brut.en && typeof brut.en === 'object' && !Array.isArray(brut.en)) ? brut.en : null;
+
     return {
       id: (typeof brut.id === 'string' && brut.id.trim())
         ? brut.id.trim()
@@ -601,9 +642,35 @@
       link: (typeof brut.link === 'string' && brut.link.trim()) ? brut.link.trim() : '#',
       linkText: (typeof brut.linkText === 'string' && brut.linkText.trim())
         ? brut.linkText.trim()
-        : 'Voir le projet',
-      badge: (typeof brut.badge === 'string') ? brut.badge.trim() : ''
+        : '',
+      badge: (typeof brut.badge === 'string') ? brut.badge.trim() : '',
+      en: traduction ? {
+        title: (typeof traduction.title === 'string' && traduction.title.trim())
+          ? traduction.title.trim()
+          : '',
+        description: (typeof traduction.description === 'string') ? traduction.description : '',
+        tags: Array.isArray(traduction.tags)
+          ? traduction.tags.filter(t => typeof t === 'string' && t.trim()).map(t => t.trim())
+          : [],
+        image: (typeof traduction.image === 'string') ? traduction.image.trim() : '',
+        linkText: (typeof traduction.linkText === 'string' && traduction.linkText.trim())
+          ? traduction.linkText.trim()
+          : ''
+      } : null
     };
+  }
+
+  // Champ d'un projet dans la langue active (repli sur la version française).
+  function champProjet(projet, champ) {
+    if (currentLang() === 'en' && projet.en) {
+      const valeur = projet.en[champ];
+      if (Array.isArray(valeur)) {
+        if (valeur.length) return valeur;
+      } else if (valeur) {
+        return valeur;
+      }
+    }
+    return projet[champ];
   }
 
   // Lecture de assets/projects/ : l’index liste les fichiers, puis chaque
@@ -642,9 +709,9 @@
     return projets;
   }
 
-  // Libellé d’un onglet : table de correspondance, sinon catégorie déduite.
+  // Libellé d’un onglet : table i18n, sinon catégorie déduite.
   function libelleCategorie(categorie) {
-    if (LIBELLES_CATEGORIES[categorie]) return LIBELLES_CATEGORIES[categorie];
+    if (CLES_CATEGORIES[categorie]) return t(CLES_CATEGORIES[categorie]);
     return categorie.charAt(0).toUpperCase() + categorie.slice(1);
   }
 
@@ -653,8 +720,10 @@
     if (!container) return;
 
     let projets = PROJETS_DE_SECOURS;
+    let activeFilter = 'all';
 
     function renderProjects(filter) {
+      activeFilter = filter;
       container.innerHTML = '';
 
       const filtered = filter === 'all'
@@ -662,16 +731,22 @@
         : projets.filter(p => p.category === filter);
 
       filtered.forEach(project => {
+        const titre = champProjet(project, 'title');
+        const description = champProjet(project, 'description');
+        const tags = champProjet(project, 'tags') || [];
+        const lienTexte = champProjet(project, 'linkText') || t('projects.viewProject');
+        const image = champProjet(project, 'image');
+
         const card = document.createElement('article');
         card.className = 'project-card';
         card.setAttribute('data-reveal', '');
 
         // L’image et le badge sont facultatifs dans le JSON
-        if (!project.image) card.classList.add('no-media');
+        if (!image) card.classList.add('no-media');
 
-        const media = project.image
+        const media = image
           ? `<div class="project-media" aria-hidden="true">
-               <img src="${escapeAttr(project.image)}" alt="${escapeAttr(project.title)}" loading="lazy" width="800" height="450">
+               <img src="${escapeAttr(image)}" alt="${escapeAttr(titre)}" loading="lazy" width="800" height="450">
                ${project.badge ? `<span class="project-badge">${escapeHtml(project.badge)}</span>` : ''}
              </div>`
           : '';
@@ -679,14 +754,14 @@
         card.innerHTML = `
           ${media}
           <div class="project-info">
-            <h3>${escapeHtml(project.title)}</h3>
-            <p>${escapeHtml(project.description)}</p>
+            <h3>${escapeHtml(titre)}</h3>
+            <p>${escapeHtml(description)}</p>
             <div class="project-tags">
-              ${project.tags.map(tag => '<span class="tag">' + escapeHtml(tag) + '</span>').join('')}
+              ${tags.map(tag => '<span class="tag">' + escapeHtml(tag) + '</span>').join('')}
             </div>
             <div class="project-footer">
               <a href="${escapeAttr(project.link)}" class="project-link" target="_blank" rel="noopener noreferrer">
-                ${escapeHtml(project.linkText)} <span>→</span>
+                ${escapeHtml(lienTexte)} <span>→</span>
               </a>
             </div>
           </div>
@@ -707,18 +782,19 @@
         if (categories.indexOf(p.category) === -1) categories.push(p.category);
       });
 
-      const onglets = [{ cle: 'all', libelle: 'Tous les projets' }]
+      const onglets = [{ cle: 'all', libelle: t('projects.all') }]
         .concat(categories.map(cle => ({ cle: cle, libelle: libelleCategorie(cle) })));
 
       zone.innerHTML = '';
 
-      onglets.forEach((onglet, index) => {
+      onglets.forEach((onglet) => {
+        const actif = onglet.cle === activeFilter;
         const bouton = document.createElement('button');
         bouton.type = 'button';
-        bouton.className = 'filter-tab' + (index === 0 ? ' active' : '');
+        bouton.className = 'filter-tab' + (actif ? ' active' : '');
         bouton.setAttribute('data-filter', onglet.cle);
         bouton.setAttribute('role', 'tab');
-        bouton.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+        bouton.setAttribute('aria-selected', actif ? 'true' : 'false');
         bouton.textContent = onglet.libelle;
 
         bouton.addEventListener('click', () => {
@@ -742,12 +818,9 @@
       const avis = document.getElementById('projects-notice');
       if (avis) {
         if (location.protocol === 'file:') {
-          avis.innerHTML = 'Les projets d\'origine sont affichés : en double-cliquant sur index.html, '
-            + 'Firefox et Chrome interdisent de lire des fichiers .json locaux. '
-            + 'Pour voir tes projets : lance <code>./demarrer.sh</code> puis ouvre <code>http://localhost:8000</code>.';
+          avis.innerHTML = t('projects.noticeFile');
         } else {
-          avis.innerHTML = 'Les fichiers de projets sont introuvables sur le serveur. '
-            + 'Vérifie que les .json de <code>assets/projects/</code> sont bien commités et poussés.';
+          avis.innerHTML = t('projects.noticeServer');
         }
         avis.hidden = false;
       }
@@ -768,8 +841,21 @@
       .then(() => {
         // Affichage : projets JSON si disponibles, sinon projets de secours
         renderOnglets();
-        renderProjects('all');
+        renderProjects(activeFilter);
       });
+
+    // Changement de langue : on régénère onglets, cartes et avis éventuel.
+    document.addEventListener('languagechange', () => {
+      renderOnglets();
+      renderProjects(activeFilter);
+
+      const avis = document.getElementById('projects-notice');
+      if (avis && !avis.hidden) {
+        avis.innerHTML = (location.protocol === 'file:')
+          ? t('projects.noticeFile')
+          : t('projects.noticeServer');
+      }
+    });
   }
 
   // ------------------------------------------------------------------
@@ -839,6 +925,16 @@
 
     window.addEventListener('resize', layout);
     window.addEventListener('load', layout);
+
+    // Le changement de langue modifie la largeur du texte : on recalcule
+    // la course horizontale et la hauteur de la section épinglée.
+    document.addEventListener('languagechange', () => {
+      window.requestAnimationFrame(() => {
+        layout();
+        window.setTimeout(layout, 150);
+      });
+    });
+
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(layout);
     }

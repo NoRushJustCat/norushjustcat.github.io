@@ -7,5 +7,12 @@
   "image": "assets/images/project-roblox-3.svg",
   "link": "#",
   "linkText": "Ouvrir le projet",
-  "badge": "ROBLOX STUDIO"
+  "badge": "ROBLOX STUDIO",
+  "en": {
+    "title": "AI System & Modular Quests",
+    "description": "State machines for NPCs, modular architecture and client-server synchronisation.",
+    "tags": ["Luau", "AI", "State Machine", "Datastore"],
+    "image": "assets/images/project-roblox-3-en.svg",
+    "linkText": "Open project"
+  }
 }

@@ -7,5 +7,12 @@
   "image": "assets/images/project-roblox-1.svg",
   "link": "#",
   "linkText": "Ouvrir le projet",
-  "badge": "ROBLOX STUDIO"
+  "badge": "ROBLOX STUDIO",
+  "en": {
+    "title": "Flight Simulator & Instruments",
+    "description": "Functional virtual cockpit with a real-time HUD, flight instrument readouts and lift physics.",
+    "tags": ["Luau", "OOP", "Physics", "HUD"],
+    "image": "assets/images/project-roblox-1-en.svg",
+    "linkText": "Open project"
+  }
 }

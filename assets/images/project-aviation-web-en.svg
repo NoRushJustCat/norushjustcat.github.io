@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a192f"/>
+      <stop offset="100%" stop-color="#071220"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg4)"/>
+  <!-- Trajectoire de vol 3D / Télémétrie d'enquête -->
+  <path d="M80 180 Q 250 80, 420 220 T 720 160" fill="none" stroke="#45d6e8" stroke-width="3"/>
+  <circle cx="420" cy="220" r="8" fill="#ffb454"/>
+  <circle cx="420" cy="220" r="16" fill="none" stroke="#ffb454" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <!-- Courbes télémétriques altimètre et vitesse -->
+  <path d="M100 320 L220 300 L340 330 L460 270 L580 340 L700 310" fill="none" stroke="#3cd070" stroke-width="2"/>
+  <!-- Badge Aviation Web -->
+  <g transform="translate(630, 30)">
+    <rect x="0" y="0" width="140" height="30" rx="6" fill="#0b1e36" stroke="#45d6e8" stroke-width="1.5"/>
+    <text x="70" y="20" fill="#45d6e8" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">AVIATION • WEB</text>
+  </g>
+  <text x="50" y="380" fill="#f0f6fc" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="bold">Aircraft Accident Investigator</text>
+  <text x="50" y="410" fill="#9ab3cf" font-family="sans-serif" font-size="15">Web tool for flight-data analysis, timeline reconstruction and telemetry</text>
+</svg>

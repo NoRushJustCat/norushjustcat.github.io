@@ -7,5 +7,12 @@
   "image": "assets/images/project-aviation-web.svg",
   "link": "#",
   "linkText": "Voir l'outil",
-  "badge": "AVIATION • WEB"
+  "badge": "AVIATION • WEB",
+  "en": {
+    "title": "Aircraft Accident Investigator",
+    "description": "Web tool for analysing flight data: telemetry, event timeline and trajectory visualisation.",
+    "tags": ["HTML5", "Canvas", "JavaScript", "Mapping"],
+    "image": "assets/images/project-aviation-web-en.svg",
+    "linkText": "View tool"
+  }
 }

@@ -1,7 +1,7 @@
 # Portfolio — NoRushJustChat
 
-Mon portfolio.
-( fait par IA et en cours de construction (nottament les projets ) )
+Mon portfolio bilingue français / anglais (bouton FR / EN dans l'en-tête).
+(fait par IA et en cours de construction (notamment les projets))
 
 ## Voir le site
 

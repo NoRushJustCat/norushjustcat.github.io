@@ -10,6 +10,14 @@
   "linkText": "Ouvrir le projet",
   "badge": "ROBLOX STUDIO",
 
+  "en": {
+    "title": "Project title",
+    "description": "One or two sentences describing what the project does and what it taught.",
+    "tags": ["Lua", "OOP", "UI"],
+    "image": "assets/images/project-roblox-1-en.svg",
+    "linkText": "Open project"
+  },
+
   "aide": {
     "id": "Identifiant court, sans espace (optionnel, déduit du titre sinon).",
     "category": "roblox | aviation | web | divers — l'onglet de filtre correspondant est créé automatiquement.",
@@ -19,6 +27,7 @@
     "image": "Chemin de l'image (relatif à index.html). Vide = pas d'image.",
     "link": "URL du projet. '#' si aucun lien.",
     "linkText": "Texte du lien (défaut : « Voir le projet »).",
-    "badge": "Petite étiquette en haut à droite de l'image. Vide = pas de badge."
+    "badge": "Petite étiquette en haut à droite de l'image. Vide = pas de badge.",
+    "en": "Traductions anglaises (title, description, tags, image, linkText). Facultatif : sans cet objet, la version française est affichée en anglais."
   }
 }

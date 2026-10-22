@@ -7,5 +7,12 @@
   "image": "assets/images/project-roblox-2.svg",
   "link": "#",
   "linkText": "Ouvrir le projet",
-  "badge": "ROBLOX STUDIO"
+  "badge": "ROBLOX STUDIO",
+  "en": {
+    "title": "Airport Traffic & Markings",
+    "description": "Ground taxiing management, aircraft guidance to gates and dynamic runway lighting.",
+    "tags": ["Luau", "Pathfinding", "Lighting", "UI"],
+    "image": "assets/images/project-roblox-2-en.svg",
+    "linkText": "Open project"
+  }
 }

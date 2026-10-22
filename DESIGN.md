@@ -100,11 +100,13 @@ assets/projects/
 | `link` / `linkText` | non | URL du projet et libellé du lien |
 | `badge` | non | Étiquette en haut à droite du visuel |
 | `id` | non | Identifiant ; déduit du titre s'il est absent |
+| `en` | non | Traductions anglaises : `{ "title", "description", "tags", "image", "linkText" }` |
 
 ### 7.3 Ajout / suppression
 1. **Ajouter** : copier `_template.json` vers `05-mon-projet.json`, remplir les champs, ajouter `"05-mon-projet.json"` dans `_index.json`.
 2. **Supprimer** : retirer la ligne dans `_index.json` (et, si on veut, le fichier JSON).
 3. Les onglets de filtre sont **générés automatiquement** à partir des catégories présentes : un projet en `"category": "web"` crée l'onglet « Web ».
+4. Les champs de base (`title`, `description`, `tags`, `linkText`) sont en français ; l'objet `en` fournit la version anglaise affichée quand la langue active est l'anglais. Sans objet `en`, la version française sert de repli.
 
 ### 7.4 Repli hors-ligne (contrainte double-clic)
 Les navigateurs (Chrome, Firefox…) interdisent toute requête vers un fichier local en `file://` (origine `null`, politique CORS) : `fetch()` sur les `.json` échoue donc en double-clic sur `index.html`.
@@ -129,5 +131,18 @@ Les navigateurs (Chrome, Firefox…) interdisent toute requête vers un fichier 
 - L'héberge tant dans `assets/` qu'on veut, le chemin est relatif à `index.html` (`assets/images/fond.jpg` par exemple).
 - Si `config.json` est illisible (double-clic en `file://`, fichier absent ou invalide), les valeurs par défaut s'appliquent en silence : mention affichée, fond étoiles conservé. Comme pour les projets, lire `config.json` suppose un serveur local (`./demarrer.sh`) ou l'hébergement.
 - Le canvas (étoiles + balise radar) est stoppé et masqué tant que le fond image est actif ; `resumeCanvas` ne le relance pas.
+
+---
+
+## 9. Bilingue français / anglais
+
+- **Langue par défaut :** anglais. Le HTML de `index.html` est rédigé en anglais.
+- **Bascule :** bouton `FR / EN` dans l'en-tête (`#lang-toggle`). Le choix est mémorisé dans `localStorage` (`norushjustchat-lang`).
+- **Lien direct :** `index.html?lang=fr` ou `index.html?lang=en` force la langue pour la visite.
+- **Textes statiques :** chaque élément traduisible porte `data-i18n="clé"` (ou `data-i18n-html`, `data-i18n-aria-label`, `data-i18n-placeholder`, `data-i18n-title`). Les traductions françaises sont dans `lang.js` (objet `FR`), l'anglais reste dans le HTML.
+- **Textes dynamiques :** `window.PortfolioI18n.t("clé")` (onglets, cartes projets, avis, formulaire). `script.js` écoute l'événement `languagechange` pour régénérer les projets, et la chronologie recalcule sa course horizontale.
+- **Projets JSON :** champs de base en français + objet `en` pour l'anglais (voir §7.2).
+- **Attribut `lang` :** `<html lang>` est mis à jour à chaque bascule (`fr` / `en`).
+
 
 ---
