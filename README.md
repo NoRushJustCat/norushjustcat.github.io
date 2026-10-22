@@ -1,6 +1,6 @@
 # Portfolio — NoRushJustChat
 
-Mon portfolio. Une seule page en HTML, CSS et JavaScript, sans framework ni build.
+Mon portfolio.
 ( fait par IA et en cours de construction (nottament les projets ) )
 
 ## Voir le site
