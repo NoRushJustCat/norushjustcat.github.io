@@ -40,11 +40,7 @@
         + 'Firefox and Chrome block local .json files. '
         + 'To see your projects: run <code>./demarrer.sh</code> then open <code>http://localhost:8000</code>.',
       'projects.noticeServer': 'The project files cannot be found on the server. '
-        + 'Check that the .json files in <code>assets/projects/</code> are committed and pushed.',
-      'contact.copy': 'Copy',
-      'contact.copied': 'Copied!',
-      'contact.sending': 'Sending…',
-      'contact.sent': 'Message sent successfully.'
+        + 'Check that the .json files in <code>assets/projects/</code> are committed and pushed.'
     },
     fr: {
       'lang.label': 'Langue',
@@ -60,11 +56,7 @@
         + 'Firefox et Chrome interdisent de lire des fichiers .json locaux. '
         + 'Pour voir tes projets : lance <code>./demarrer.sh</code> puis ouvre <code>http://localhost:8000</code>.',
       'projects.noticeServer': 'Les fichiers de projets sont introuvables sur le serveur. '
-        + 'Vérifie que les .json de <code>assets/projects/</code> sont bien commités et poussés.',
-      'contact.copy': 'Copier',
-      'contact.copied': 'Copié !',
-      'contact.sending': 'Transmission en cours…',
-      'contact.sent': 'Message envoyé avec succès.'
+        + 'Vérifie que les .json de <code>assets/projects/</code> sont bien commités et poussés.'
     }
   };
 
@@ -119,13 +111,6 @@
     'about.chip2': 'Dextérité manuelle et mécanique',
     'about.chip3': 'Développement Roblox Studio (Luau)',
     'about.chip4': "Rigueur et rapidité d'exécution",
-
-    'about.point1Title': "Discipline de l'aviation",
-    'about.point1Text': "L'aéronautique exige de la clarté et aucune place pour le hasard. J'applique cette règle à mon travail scolaire et à mes projets personnels.",
-    'about.point2Title': 'Logique logicielle',
-    'about.point2Text': 'Sur Roblox Studio, je structure des scripts modulaires, gère la physique multijoueur et conçois des interfaces adaptées aux joueurs.',
-    'about.point3Title': 'Expérience concrète en atelier',
-    'about.point3Text': "Mon stage chez Air France Industries m'a permis de manipuler l'outillage professionnel et d'observer des interventions de maintenance réelles.",
 
     'timeline.pretitle': 'CHRONOLOGIE',
     'timeline.title': 'Parcours & Expériences',
@@ -225,24 +210,9 @@
     'contact.pretitle': 'COMMUNICATION',
     'contact.title': 'Prendre Contact',
     'contact.lead': "Pour échanger sur un projet, une formation ou une opportunité technique.",
-    'contact.emailLabel': 'CANAL E-MAIL',
-    'contact.emailNote': 'Placeholder à remplacer par votre e-mail avant publication :',
-    'contact.emailPlaceholder': 'TON_EMAIL_ICI',
-    'contact.copyAria': "Copier l'adresse de contact",
     'contact.profilesLabel': 'PROFILS & LIENS',
-    'contact.formTitle': 'Envoyer un message direct',
-    'contact.formName': 'Nom ou pseudonyme',
-    'contact.formNamePh': 'Votre nom',
-    'contact.formEmail': 'Adresse e-mail',
-    'contact.formEmailPh': 'adresse@domaine.fr',
-    'contact.formSubject': 'Sujet',
-    'contact.formSubjectPh': 'Objet de votre message',
-    'contact.formMessage': 'Message',
-    'contact.formMessagePh': 'Votre message...',
-    'contact.formSend': 'Transmettre',
 
-    'footer.taglineHtml': '© <span data-year>2026</span> NoRushJustChat — Portfolio statique personnel. BIA mention Très Bien.',
-    'footer.note': 'Hébergement statique gratuit sans serveur',
+    'footer.taglineHtml': '© <span data-year>2026</span> NoRushJustChat',
     'footer.backToTop': 'Haut de page',
     'footer.backToTopAria': 'Remonter en haut de page'
   };
@@ -285,7 +255,7 @@
     return null;
   }
 
-  // Texte pour le JavaScript (projets, formulaire, filtres…).
+  // Texte pour le JavaScript (projets, filtres…).
   function t(key) {
     const value = lookup(key, currentLang);
     if (value !== null) return value;

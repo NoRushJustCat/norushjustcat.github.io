@@ -11,18 +11,21 @@
 
 | Nom de variable | Code Hex | Rôle & Usage | Contraste / Accessibilité |
 | :--- | :--- | :--- | :--- |
-| `--bg-space` | `#060b14` | Arrière-plan global (nuit aéronautique profonde) | Fond sombre principal |
-| `--bg-cockpit` | `#0b1524` | Surface des conteneurs & cartes (panneau de bord) | Contraste > 12:1 avec le texte clair |
-| `--bg-card` | `#112035` | Fond des cartes interactives au repos | Élévation +1 |
-| `--bg-card-hover` | `#172c47` | État hover des cartes & modules interactifs | Élévation +2 |
-| `--border-subtle` | `rgba(69, 214, 232, 0.15)` | Délimitations fines rappelant les sérigraphies d'instruments | Discret, non intrusif |
-| `--border-focus` | `#45d6e8` | Accentuation des focus clavier et bordures actives | Norme WCAG focus visible |
-| `--text-main` | `#f0f6fc` | Titres et texte principal à fort contraste | Ratio > 14:1 sur fond sombre |
-| `--text-muted` | `#9ab3cf` | Sous-titres, descriptions et métadonnées secondaires | Ratio > 5.5:1 (conforme AA) |
-| `--accent-cyan` | `#45d6e8` | Cyan avionique (écrans PFD/ND, trajectoires, liens) | Accents primaires |
-| `--accent-amber` | `#ffb454` | Ambre d'alerte & sélecteur (caution light, badges majeurs) | Points chauds & distinctions |
-| `--accent-green` | `#3cd070` | Vert instrument (systèmes opérationnels, mentions TB) | Validation & statuts actifs |
-| `--accent-roblox` | `#e2231a` | Rouge brique Roblox (accent spécifique Roblox Studio) | Badges & tags Roblox |
+| `--bg-space` | `#050a12` | Arrière-plan global (nuit aéronautique profonde) | Fond sombre principal |
+| `--bg-cockpit` | `#08111f` | Surface des conteneurs & cartes (panneau de bord) | Contraste > 12:1 avec le texte clair |
+| `--bg-card` | `rgba(14, 26, 45, 0.78)` | Fond translucide des cartes interactives | Élévation +1 |
+| `--bg-card-hover` | `#14263f` | État hover des cartes & modules interactifs | Élévation +2 |
+| `--border-subtle` | `rgba(126, 168, 200, 0.16)` | Délimitations fines rappelant les sérigraphies d'instruments | Discret, non intrusif |
+| `--border-strong` | `rgba(94, 231, 245, 0.42)` | Bordures actives et survols | Accent lisible |
+| `--border-focus` | `#5ee7f5` | Accentuation des focus clavier | Norme WCAG focus visible |
+| `--text-main` | `#f4f8ff` | Titres et texte principal à fort contraste | Ratio > 14:1 sur fond sombre |
+| `--text-muted` | `#a3b7cf` | Sous-titres, descriptions et métadonnées secondaires | Ratio > 5.5:1 (conforme AA) |
+| `--text-subtle` | `#7289a5` | Libellés techniques et informations tertiaires | Ratio proche de 4.5:1 |
+| `--accent-cyan` | `#5ee7f5` | Cyan avionique (écrans PFD/ND, trajectoires, liens) | Accents primaires |
+| `--accent-cyan-deep` | `#26b7cd` | Départ des dégradés et jauges | Accent secondaire |
+| `--accent-amber` | `#ffc46b` | Ambre d'alerte & sélecteur (caution light, badges majeurs) | Points chauds & distinctions |
+| `--accent-green` | `#5ce49a` | Vert instrument (systèmes opérationnels, mentions TB) | Validation & statuts actifs |
+| `--accent-roblox` | `#ff4d44` | Rouge brique Roblox (accent spécifique Roblox Studio) | Badges & tags Roblox |
 
 ---
 
@@ -33,25 +36,26 @@
    `'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`
 2. **Police Corps / Interface :** `'Inter'`, avec pile de secours :
    `'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`
-3. **Police Technique / Instruments / Données :** Police monospace système :
+3. **Police Technique / Instruments / Données :** `'JetBrains Mono'`, chargée via Google Fonts, avec pile de secours :
    `'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Menlo, monospace`
 
 ### 3.2 Échelle Typographique (Mobile-first avec clamp)
-- **Titre Hero (H1) :** `clamp(2.5rem, 6vw, 4.25rem)` — Graisse 700, interlettrage `-0.02em`
-- **Titre de Section (H2) :** `clamp(1.75rem, 4vw, 2.5rem)` — Graisse 700
+- **Titre Hero (H1) :** `clamp(3rem, 7.2vw, 5.6rem)` — Graisse 700, interlettrage `-0.055em`, dégradé blanc → cyan
+- **Titre de Section (H2) :** `clamp(2rem, 4.4vw, 3.25rem)` — Graisse 700, interlettrage `-0.035em`
 - **Sous-titre / Cartouche (H3) :** `clamp(1.2rem, 2.5vw, 1.45rem)` — Graisse 600
 - **Corps de texte (P) :** `1rem (16px)` avec `line-height: 1.65` — Longueur maximale `68ch`
-- **Petites mentions & Badges :** `0.85rem (13.6px)` — Graisse 500/600
+- **Petites mentions & Badges :** `0.6–0.8rem` — `JetBrains Mono`, interlettrage `0.08–0.18em`, majuscules
 
 ---
 
 ## 4. Composants & Motifs Aéronautiques
-1. **Grille Radar / Horizon :** Motifs SVG d'arrière-plan avec cercles concentriques et radiaux très estompés (`opacity: 0.04`).
-2. **Badge d'état :** Puce lumineuse avec pulsation verte (`box-shadow: 0 0 10px rgba(60, 208, 112, 0.6)`).
-3. **Cartes Projets :** Angle biseauté subtil ou coins adoucis (`border-radius: 12px`), bordure fine réactive au survol et effet tilt 3D géré au pointeur.
-4. **Chronologie horizontale :** Trait continu reliant les balises de vol (BIA, brevets, stages, baptêmes de l'air). La section se fige à l'écran : le scroll vertical (vers le bas) fait glisser la chronologie vers la droite ; repli en défilement horizontal natif (mouvement réduit / sans JS).
-5. **Icônes :** Fichiers SVG de `assets/icons/` (avion, logo Roblox Studio, code, outils, GitHub, Discord) chargés en `<img>` — pas de `mask-image`, pour rester affichables en ouverture locale (`file://`).
-6. **Barres de Télémétrie :** Jauges horizontales progressives avec indicateur de pourcentage façon instrument numérique.
+1. **Navigation flottante :** Barre glassmorphism en pilule (`border-radius: 16px`), bordure fine, flou d'arrière-plan et ombre douce. Elle se masque au défilement vers le bas et réapparaît vers le haut.
+2. **Hero asymétrique :** Colonne éditoriale à gauche, instrument de bord décoratif à droite (radar animé, avion, lectures `TRACK / STACK / STATUS`). L'instrument disparaît sous 900 px pour laisser toute la place au contenu.
+3. **En-têtes de section éditoriaux :** Filet supérieur, index généré en CSS (`01 /`, `02 /`…), titre à gauche et chapô aligné à droite sur grand écran ; passage en une colonne sur mobile.
+4. **Cartes Projets :** Coins adoucis (`border-radius: 18px`), dégradé de surface, liseré lumineux au survol (mask CSS), visuel avec vignettage bas et effet de soulèvement.
+5. **Chronologie horizontale :** Trait continu reliant les balises de vol (BIA, brevets, stages, baptêmes de l'air). La section se fige à l'écran : le scroll vertical fait glisser la chronologie vers la droite ; chaque étape est désormais une carte en verre sombre.
+6. **Icônes :** Fichiers SVG de `assets/icons/` (avion, logo Roblox Studio, code, outils, GitHub, Discord) chargés en `<img>`, teintés cyan pour les pictogrammes structurels — aucun emoji structurel.
+7. **Barres de Télémétrie :** Jauges horizontales dégradées cyan avec indicateur de pourcentage en `JetBrains Mono`, intégrées dans un bandeau à quatre cellules séparées par des filets d'instrument.
 
 ---
 
@@ -140,7 +144,7 @@ Les navigateurs (Chrome, Firefox…) interdisent toute requête vers un fichier 
 - **Bascule :** sélecteur `FR / EN` intégré à droite de la navbar (`#lang-toggle`), avec sélection directe de la langue. Le choix est mémorisé dans `localStorage` (`norushjustchat-lang`).
 - **Lien direct :** `index.html?lang=fr` ou `index.html?lang=en` force la langue pour la visite.
 - **Textes statiques :** chaque élément traduisible porte `data-i18n="clé"` (ou `data-i18n-html`, `data-i18n-aria-label`, `data-i18n-placeholder`, `data-i18n-title`). Les traductions françaises sont dans `lang.js` (objet `FR`), l'anglais reste dans le HTML.
-- **Textes dynamiques :** `window.PortfolioI18n.t("clé")` (onglets, cartes projets, avis, formulaire). `script.js` écoute l'événement `languagechange` pour régénérer les projets, et la chronologie recalcule sa course horizontale.
+- **Textes dynamiques :** `window.PortfolioI18n.t("clé")` (onglets, cartes projets, avis). `script.js` écoute l'événement `languagechange` pour régénérer les projets, et la chronologie recalcule sa course horizontale.
 - **Projets JSON :** champs de base en français + objet `en` pour l'anglais (voir §7.2).
 - **Attribut `lang` :** `<html lang>` est mis à jour à chaque bascule (`fr` / `en`).
 

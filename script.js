@@ -339,17 +339,19 @@
   // ------------------------------------------------------------------
   const flightFill = document.getElementById('flight-fill');
   const flightPlane = document.getElementById('flight-plane');
+  let flightTicking = false;
 
   function initFlightTracker() {
     if (!flightFill || !flightPlane || reducedMotion) return;
 
-    let ticking = false;
     window.addEventListener('scroll', () => {
-      if (!ticking) {
+      if (!flightTicking) {
         window.requestAnimationFrame(updateFlight);
-        ticking = true;
+        flightTicking = true;
       }
     });
+
+    updateFlight();
   }
 
   function updateFlight() {
@@ -368,7 +370,7 @@
     }
     window.lastScrollY = window.scrollY;
 
-    ticking = false;
+    flightTicking = false;
   }
 
   // ------------------------------------------------------------------
@@ -552,48 +554,7 @@
   }
 
   // ------------------------------------------------------------------
-  // 11. BOUTON COPIER E-MAIL + FORMULAIRE
-  // ------------------------------------------------------------------
-  function initContact() {
-    const copyBtn = document.getElementById('copy-email-btn');
-    const copyBtnText = document.getElementById('copy-btn-text');
-    const emailText = document.getElementById('target-email');
-
-    if (copyBtn && emailText) {
-      copyBtn.addEventListener('click', () => {
-        const text = emailText.textContent.trim();
-        navigator.clipboard.writeText(text).then(() => {
-          copyBtnText.textContent = t('contact.copied');
-          setTimeout(() => {
-            copyBtnText.textContent = t('contact.copy');
-          }, 1500);
-        });
-      });
-    }
-
-    const form = document.getElementById('contact-form');
-    const feedback = document.getElementById('form-feedback');
-
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (!feedback) return;
-
-        feedback.textContent = t('contact.sending');
-        feedback.style.color = 'var(--accent-cyan)';
-
-        // Simule l’envoi (remplacer par l’action réelle Formspree plus tard)
-        setTimeout(() => {
-          feedback.textContent = t('contact.sent');
-          feedback.style.color = 'var(--accent-green)';
-          form.reset();
-        }, 1200);
-      });
-    }
-  }
-
-  // ------------------------------------------------------------------
-  // 12. GRILLE DES PROJETS (fichiers .json → injection DOM + onglets)
+  // 11. GRILLE DES PROJETS (fichiers .json → injection DOM + onglets)
   // ------------------------------------------------------------------
 
   // Un texte JSON est réinjecté dans le HTML : on échappe les caractères
@@ -859,7 +820,7 @@
   }
 
   // ------------------------------------------------------------------
-  // 13. CHRONOLOGIE HORIZONTALE (section épinglée)
+  // 12. CHRONOLOGIE HORIZONTALE (section épinglée)
   // Le scroll vertical pilote un défilement horizontal : la section
   // se fige à l’écran pendant que la chronologie glisse vers la droite.
   // Sans mouvement réduit, un simple défilement horizontal natif fait foi.
@@ -943,7 +904,7 @@
   }
 
   // ------------------------------------------------------------------
-  // 14. ANNÉE AUTOMATIQUE (badge hero + pied de page)
+  // 13. ANNÉE AUTOMATIQUE (badge hero + pied de page)
   // ------------------------------------------------------------------
   function initYear() {
     const year = new Date().getFullYear();
@@ -953,7 +914,7 @@
   }
 
   // ------------------------------------------------------------------
-  // 15. CONFIGURATION OPTIONNELLE (config.json, à la racine)
+  // 14. CONFIGURATION OPTIONNELLE (config.json, à la racine)
   //
   //   placeholderVisible : true|false → la mention « placeholders »
   //                        s'affiche au-dessus des projets ou est retirée.
@@ -1010,7 +971,7 @@
   }
 
   // ------------------------------------------------------------------
-  // 16. INITIALISATION DU HERO (après le loader)
+  // 15. INITIALISATION DU HERO (après le loader)
   // ------------------------------------------------------------------
   function initHero() {
     // Toutes les animations d’entrée sont gérées par CSS + IntersectionObserver
@@ -1026,7 +987,6 @@
     initSkillBars();
     initTiltCards();
     initNavigation();
-    initContact();
     initProjects();
 
     // Reprend le canvas si l’onglet revient au premier plan
@@ -1037,7 +997,7 @@
   }
 
   // ------------------------------------------------------------------
-  // 17. DÉMARRAGE
+  // 16. DÉMARRAGE
   // ------------------------------------------------------------------
   window.addEventListener('DOMContentLoaded', () => {
     initYear();
