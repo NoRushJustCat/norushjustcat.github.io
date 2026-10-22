@@ -82,7 +82,6 @@
     'nav.interests': "Centres d'intérêt",
     'nav.contact': 'Contact',
 
-    'hero.badge': 'SYSTÈMES PRÊTS • PROMOTION',
     'hero.subtitle': "Passionné d'aviation • Développeur Roblox Studio",
     'hero.text': "Lycéen curieux et méthodique. Titulaire du Brevet d'Initiation Aéronautique mention Très Bien, je m'intéresse à la mécanique de vol et je développe des jeux complets en Luau sur Roblox Studio.",
     'hero.ctaProjects': 'Voir mes projets',

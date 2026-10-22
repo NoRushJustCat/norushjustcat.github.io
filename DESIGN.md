@@ -65,7 +65,7 @@
 - **Défilement & Révélation :** Utilisation d'`IntersectionObserver` pour déclencher les apparitions une seule fois avec un seuil de 15%.
 - **Curseur personnalisé :** Activé uniquement sur les périphériques disposant d'un pointeur précis (`@media (hover: hover) and (pointer: fine)`). Déconnecté sur écran tactile. Le curseur natif est masqué (`body.cursor-active`) pour ne laisser que le curseur custom.
 - **Ruban réactif :** Rendu dans le canvas fixe, derrière le contenu. Le suivi du pointeur est lissé par interpolation et la géométrie du ruban est recalculée à chaque image (36 points maximum), sans allocation DOM. Désactivé avec `prefers-reduced-motion`.
-- **Année automatique :** Les éléments `[data-year]` (badge hero, pied de page) sont renseignés au chargement via `new Date().getFullYear()`.
+- **Année automatique :** Les éléments `[data-year]` (pied de page) sont renseignés au chargement via `new Date().getFullYear()`.
 - **Effet de tilt 3D :** Calculé sur `pointermove` avec `requestAnimationFrame` pour éviter les saccades sur PC modeste.
 - **Trajectoire d'avion :** Avion SVG se déplaçant sur le scroll sans bloquer le fil d'exécution principal.
 - **Accessibilité motrice (`prefers-reduced-motion`) :**
@@ -136,7 +136,7 @@ Les navigateurs (Chrome, Firefox…) interdisent toute requête vers un fichier 
 - `imageFond` vide (ou champ absent) → **fond actuel conservé** (canvas d'étoiles) : aucune image n'est imposée.
 - L'héberge tant dans `assets/` qu'on veut, le chemin est relatif à `index.html` (`assets/images/fond.jpg` par exemple).
 - Si `config.json` est illisible (double-clic en `file://`, fichier absent ou invalide), les valeurs par défaut s'appliquent en silence : mention affichée, fond étoiles conservé. Comme pour les projets, lire `config.json` suppose un serveur local (`./demarrer.sh`) ou l'hébergement.
-- Le canvas (étoiles + balise radar) est stoppé et masqué tant que le fond image est actif ; `resumeCanvas` ne le relance pas.
+- Le canvas (étoiles + balise radar + ruban réactif) est stoppé et masqué tant que le fond image est actif ; `resumeCanvas` ne le relance pas.
 
 ---
 
