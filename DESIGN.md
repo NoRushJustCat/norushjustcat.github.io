@@ -11,21 +11,21 @@
 
 | Nom de variable | Code Hex | Rôle & Usage | Contraste / Accessibilité |
 | :--- | :--- | :--- | :--- |
-| `--bg-space` | `#050a12` | Arrière-plan global (nuit aéronautique profonde) | Fond sombre principal |
-| `--bg-cockpit` | `#08111f` | Surface des conteneurs & cartes (panneau de bord) | Contraste > 12:1 avec le texte clair |
-| `--bg-card` | `rgba(14, 26, 45, 0.78)` | Fond translucide des cartes interactives | Élévation +1 |
-| `--bg-card-hover` | `#14263f` | État hover des cartes & modules interactifs | Élévation +2 |
-| `--border-subtle` | `rgba(126, 168, 200, 0.16)` | Délimitations fines rappelant les sérigraphies d'instruments | Discret, non intrusif |
-| `--border-strong` | `rgba(94, 231, 245, 0.42)` | Bordures actives et survols | Accent lisible |
-| `--border-focus` | `#5ee7f5` | Accentuation des focus clavier | Norme WCAG focus visible |
-| `--text-main` | `#f4f8ff` | Titres et texte principal à fort contraste | Ratio > 14:1 sur fond sombre |
-| `--text-muted` | `#a3b7cf` | Sous-titres, descriptions et métadonnées secondaires | Ratio > 5.5:1 (conforme AA) |
-| `--text-subtle` | `#7289a5` | Libellés techniques et informations tertiaires | Ratio proche de 4.5:1 |
-| `--accent-cyan` | `#5ee7f5` | Cyan avionique (écrans PFD/ND, trajectoires, liens) | Accents primaires |
-| `--accent-cyan-deep` | `#26b7cd` | Départ des dégradés et jauges | Accent secondaire |
-| `--accent-amber` | `#ffc46b` | Ambre d'alerte & sélecteur (caution light, badges majeurs) | Points chauds & distinctions |
-| `--accent-green` | `#5ce49a` | Vert instrument (systèmes opérationnels, mentions TB) | Validation & statuts actifs |
-| `--accent-roblox` | `#ff4d44` | Rouge brique Roblox (accent spécifique Roblox Studio) | Badges & tags Roblox |
+| `--bg-space` | `#0b0c0a` | Arrière-plan global (nuit d'encre, légèrement olive) | Fond sombre principal |
+| `--bg-cockpit` | `#11130f` | Surface des conteneurs & cartes (panneau de bord) | Contraste > 12:1 avec le texte clair |
+| `--bg-card` | `rgba(27, 29, 23, 0.82)` | Fond translucide des cartes interactives | Élévation +1 |
+| `--bg-card-hover` | `#292c22` | État hover des cartes & modules interactifs | Élévation +2 |
+| `--border-subtle` | `rgba(215, 202, 174, 0.15)` | Délimitations fines rappelant les sérigraphies d'instruments | Discret, non intrusif |
+| `--border-strong` | `rgba(217, 160, 102, 0.42)` | Bordures actives et survols | Accent lisible |
+| `--border-focus` | `#d9a066` | Accentuation des focus clavier | Norme WCAG focus visible |
+| `--text-main` | `#f3eddf` | Titres et texte principal (ivoire chaud) | Ratio > 14:1 sur fond sombre |
+| `--text-muted` | `#c2baa8` | Sous-titres, descriptions et métadonnées secondaires | Ratio > 5.5:1 (conforme AA) |
+| `--text-subtle` | `#8f8877` | Libellés techniques et informations tertiaires | Ratio proche de 4.5:1 |
+| `--accent-cyan` | `#d9a066` | Ambre/cuivre de piste (variable historique, accents primaires) | Accents principaux |
+| `--accent-cyan-deep` | `#a96b3c` | Cuivre profond, départ des dégradés et jauges | Accent secondaire |
+| `--accent-amber` | `#d8bd92` | Sable clair pour les étiquettes et distinctions | Points chauds doux |
+| `--accent-green` | `#93a786` | Sauge instrument (systèmes opérationnels, mentions TB) | Validation & statuts actifs |
+| `--accent-roblox` | `#cf6450` | Rouge terre cuite (accent spécifique Roblox Studio) | Badges & tags Roblox |
 
 ---
 
@@ -40,7 +40,7 @@
    `'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Menlo, monospace`
 
 ### 3.2 Échelle Typographique (Mobile-first avec clamp)
-- **Titre Hero (H1) :** `clamp(3rem, 7.2vw, 5.6rem)` — Graisse 700, interlettrage `-0.055em`, dégradé blanc → cyan
+- **Titre Hero (H1) :** `clamp(3rem, 7.2vw, 5.6rem)` — Graisse 700, interlettrage `-0.055em`, dégradé ivoire → ambre
 - **Titre de Section (H2) :** `clamp(2rem, 4.4vw, 3.25rem)` — Graisse 700, interlettrage `-0.035em`
 - **Sous-titre / Cartouche (H3) :** `clamp(1.2rem, 2.5vw, 1.45rem)` — Graisse 600
 - **Corps de texte (P) :** `1rem (16px)` avec `line-height: 1.65` — Longueur maximale `68ch`
@@ -54,8 +54,9 @@
 3. **En-têtes de section éditoriaux :** Filet supérieur, index généré en CSS (`01 /`, `02 /`…), titre à gauche et chapô aligné à droite sur grand écran ; passage en une colonne sur mobile.
 4. **Cartes Projets :** Coins adoucis (`border-radius: 18px`), dégradé de surface, liseré lumineux au survol (mask CSS), visuel avec vignettage bas et effet de soulèvement.
 5. **Chronologie horizontale :** Trait continu reliant les balises de vol (BIA, brevets, stages, baptêmes de l'air). La section se fige à l'écran : le scroll vertical fait glisser la chronologie vers la droite ; chaque étape est désormais une carte en verre sombre.
-6. **Icônes :** Fichiers SVG de `assets/icons/` (avion, logo Roblox Studio, code, outils, GitHub, Discord) chargés en `<img>`, teintés cyan pour les pictogrammes structurels — aucun emoji structurel.
-7. **Barres de Télémétrie :** Jauges horizontales dégradées cyan avec indicateur de pourcentage en `JetBrains Mono`, intégrées dans un bandeau à quatre cellules séparées par des filets d'instrument.
+6. **Icônes :** Fichiers SVG de `assets/icons/` (avion, logo Roblox Studio, code, outils, GitHub, Discord) chargés en `<img>`, teintés ambre pour les pictogrammes structurels — aucun emoji structurel.
+7. **Barres de Télémétrie :** Jauges horizontales dégradées cuivre → ambre avec indicateur de pourcentage en `JetBrains Mono`, intégrées dans un bandeau à quatre cellules séparées par des filets d'instrument.
+8. **Ruban de fond réactif :** Sur le canvas, une traînée de lumière ambre et sauge suit le curseur avec inertie. Le tracé est construit comme un ruban effilé (largeur et opacité décroissantes), complété par un halo de tête et une fine poussière lumineuse. Il s'estompe progressivement quand la souris s'immobilise.
 
 ---
 
@@ -63,6 +64,7 @@
 - **Propriétés autorisées pour l'animation :** Uniquement `transform` et `opacity` afin d'exploiter l'accélération matérielle (GPU) sans déclencher de reflow/repaint.
 - **Défilement & Révélation :** Utilisation d'`IntersectionObserver` pour déclencher les apparitions une seule fois avec un seuil de 15%.
 - **Curseur personnalisé :** Activé uniquement sur les périphériques disposant d'un pointeur précis (`@media (hover: hover) and (pointer: fine)`). Déconnecté sur écran tactile. Le curseur natif est masqué (`body.cursor-active`) pour ne laisser que le curseur custom.
+- **Ruban réactif :** Rendu dans le canvas fixe, derrière le contenu. Le suivi du pointeur est lissé par interpolation et la géométrie du ruban est recalculée à chaque image (36 points maximum), sans allocation DOM. Désactivé avec `prefers-reduced-motion`.
 - **Année automatique :** Les éléments `[data-year]` (badge hero, pied de page) sont renseignés au chargement via `new Date().getFullYear()`.
 - **Effet de tilt 3D :** Calculé sur `pointermove` avec `requestAnimationFrame` pour éviter les saccades sur PC modeste.
 - **Trajectoire d'avion :** Avion SVG se déplaçant sur le scroll sans bloquer le fil d'exécution principal.

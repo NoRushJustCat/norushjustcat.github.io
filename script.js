@@ -174,6 +174,37 @@
   let stars = [];
   let radarPulse = 0;
 
+  // Traînée fluide qui suit le curseur (pointeurs fins uniquement).
+  const TRAIL_MAX = 36;
+  const trail = [];
+  const pointer = { x: -240, y: -240, tx: -240, ty: -240 };
+  let pointerPresent = false;
+  let pointerEnergy = 0;
+  let lastCanvasFrame = 0;
+
+  function initBackgroundPointer() {
+    if (reducedMotion) return;
+
+    window.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+
+      pointer.tx = e.clientX;
+      pointer.ty = e.clientY;
+
+      if (!pointerPresent) {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+        pointerPresent = true;
+      }
+
+      pointerEnergy = 1;
+    }, { passive: true });
+
+    window.addEventListener('mouseout', (e) => {
+      if (e.relatedTarget === null) pointerEnergy = 0;
+    });
+  }
+
   function resizeCanvas() {
     if (!canvas) return;
     canvas.width = window.innerWidth;
@@ -189,7 +220,8 @@
         y: Math.random() * window.innerHeight,
         r: Math.random() * 1.5 + 0.5,
         alpha: Math.random(),
-        delta: (Math.random() - 0.5) * 0.002
+        delta: (Math.random() - 0.5) * 0.002,
+        tone: Math.random() < 0.78 ? '217, 160, 102' : '147, 167, 134'
       });
     }
   }
@@ -197,14 +229,19 @@
   function drawCanvas(now) {
     if (!canvas || !ctx || reducedMotion) return;
 
+    const delta = lastCanvasFrame
+      ? Math.min((now - lastCanvasFrame) / 16.67, 3)
+      : 1;
+    lastCanvasFrame = now;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Étoiles scintillantes
+    // Étoiles scintillantes, teintées ambre et sauge
     stars.forEach(star => {
       star.alpha += star.delta;
       if (star.alpha <= 0.15 || star.alpha >= 0.9) star.delta *= -1;
 
-      ctx.fillStyle = 'rgba(69, 214, 232, ' + star.alpha + ')';
+      ctx.fillStyle = 'rgba(' + star.tone + ', ' + (star.alpha * 0.62) + ')';
       ctx.beginPath();
       ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
       ctx.fill();
@@ -216,11 +253,13 @@
     const radius = Math.min(canvas.width, canvas.height) * 0.18;
     const alpha = 0.06 + Math.sin(radarPulse) * 0.04;
 
-    ctx.strokeStyle = 'rgba(69, 214, 232, ' + alpha + ')';
+    ctx.strokeStyle = 'rgba(217, 160, 102, ' + alpha + ')';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.stroke();
+
+    drawPointerTrail(delta);
 
     radarPulse += 0.0015;
 
@@ -229,12 +268,133 @@
     }
   }
 
+  function drawPointerTrail(delta) {
+    if (!pointerPresent) return;
+
+    // Interpolation indépendante du framerate.
+    const follow = 1 - Math.pow(0.84, delta);
+    pointer.x += (pointer.tx - pointer.x) * follow;
+    pointer.y += (pointer.ty - pointer.y) * follow;
+    pointerEnergy *= Math.pow(0.975, delta);
+
+    if (pointerEnergy < 0.004) {
+      pointerEnergy = 0;
+      trail.length = 0;
+      return;
+    }
+
+    const head = trail[0];
+    if (!head || Math.hypot(pointer.x - head.x, pointer.y - head.y) > 1.4) {
+      trail.unshift({ x: pointer.x, y: pointer.y });
+      if (trail.length > TRAIL_MAX) trail.pop();
+    }
+
+    if (trail.length < 2) return;
+
+    const headPoint = trail[0];
+
+    const glowRadius = 280;
+    const glow = ctx.createRadialGradient(
+      headPoint.x, headPoint.y, 0,
+      headPoint.x, headPoint.y, glowRadius
+    );
+    glow.addColorStop(0, 'rgba(217, 160, 102, ' + (0.2 * pointerEnergy) + ')');
+    glow.addColorStop(0.45, 'rgba(147, 167, 134, ' + (0.07 * pointerEnergy) + ')');
+    glow.addColorStop(1, 'rgba(11, 12, 10, 0)');
+
+    ctx.fillStyle = glow;
+    ctx.fillRect(
+      headPoint.x - glowRadius,
+      headPoint.y - glowRadius,
+      glowRadius * 2,
+      glowRadius * 2
+    );
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+
+    // Rubans superposés : une nappe sauge, une âme ambre, un fil de lumière.
+    drawTrailRibbon(34, 0.11, '217, 160, 102', '147, 167, 134');
+    drawTrailRibbon(14, 0.17, '232, 199, 154', '217, 160, 102');
+    drawTrailRibbon(4, 0.28, '243, 237, 223', '232, 199, 154');
+
+    // Poussière lumineuse le long de la trace.
+    for (let i = 2; i < trail.length; i += 5) {
+      const p = trail[i];
+      const t = 1 - (i / trail.length);
+      const alpha = Math.pow(t, 2) * 0.45 * pointerEnergy;
+      if (alpha < 0.01) continue;
+
+      ctx.fillStyle = 'rgba(243, 237, 223, ' + alpha + ')';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 0.8 + t * 1.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+
+  function drawTrailRibbon(width, alpha, startColor, endColor) {
+    const count = trail.length;
+    if (count < 2) return;
+
+    const left = [];
+    const right = [];
+
+    for (let i = 0; i < count; i++) {
+      const p = trail[i];
+      const prev = trail[Math.min(i + 1, count - 1)];
+      const next = trail[Math.max(i - 1, 0)];
+
+      let dx = prev.x - next.x;
+      let dy = prev.y - next.y;
+      const len = Math.hypot(dx, dy);
+
+      if (len < 0.001) {
+        dx = 0;
+        dy = 1;
+      } else {
+        dx /= len;
+        dy /= len;
+      }
+
+      const nx = -dy;
+      const ny = dx;
+      const t = 1 - (i / (count - 1));
+      const w = 1.2 + Math.pow(t, 1.35) * width;
+
+      left.push({ x: p.x + nx * w, y: p.y + ny * w });
+      right.push({ x: p.x - nx * w, y: p.y - ny * w });
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(left[0].x, left[0].y);
+    for (let i = 1; i < count; i++) {
+      ctx.lineTo(left[i].x, left[i].y);
+    }
+    for (let i = count - 1; i >= 0; i--) {
+      ctx.lineTo(right[i].x, right[i].y);
+    }
+    ctx.closePath();
+
+    const head = trail[0];
+    const tail = trail[count - 1];
+    const gradient = ctx.createLinearGradient(head.x, head.y, tail.x, tail.y);
+    gradient.addColorStop(0, 'rgba(' + startColor + ', ' + (alpha * pointerEnergy) + ')');
+    gradient.addColorStop(0.4, 'rgba(' + endColor + ', ' + (alpha * 0.5 * pointerEnergy) + ')');
+    gradient.addColorStop(1, 'rgba(' + endColor + ', 0)');
+
+    ctx.fillStyle = gradient;
+    ctx.fill();
+  }
+
   function pauseCanvas() {
     // nothing needed; drawCanvas checks document.hidden itself
   }
 
   function resumeCanvas() {
     if (!document.hidden && !reducedMotion) {
+      lastCanvasFrame = 0;
       requestAnimationFrame(drawCanvas);
     }
   }
@@ -1004,6 +1164,7 @@
     initHorizontalTimeline();
     resizeCanvas();
     initStars();
+    initBackgroundPointer();
 
     if (canvas) {
       ctx = canvas.getContext('2d');

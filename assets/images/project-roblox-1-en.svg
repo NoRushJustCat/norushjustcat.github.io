@@ -1,31 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
   <defs>
     <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0a192f"/>
-      <stop offset="100%" stop-color="#050c18"/>
+      <stop offset="0%" stop-color="#141610"/>
+      <stop offset="100%" stop-color="#0b0c0a"/>
     </linearGradient>
     <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#45d6e8"/>
-      <stop offset="100%" stop-color="#2a8290"/>
+      <stop offset="0%" stop-color="#d9a066"/>
+      <stop offset="100%" stop-color="#a96b3c"/>
     </linearGradient>
   </defs>
   <rect width="800" height="450" fill="url(#bg1)"/>
   <!-- Horizon artificiel cockpit -->
   <g opacity="0.15">
-    <circle cx="400" cy="225" r="160" fill="none" stroke="#45d6e8" stroke-width="2"/>
-    <circle cx="400" cy="225" r="110" fill="none" stroke="#45d6e8" stroke-width="1" stroke-dasharray="4 4"/>
-    <line x1="200" y1="225" x2="600" y2="225" stroke="#45d6e8" stroke-width="1.5"/>
-    <line x1="400" y1="50" x2="400" y2="400" stroke="#45d6e8" stroke-width="1"/>
+    <circle cx="400" cy="225" r="160" fill="none" stroke="#d9a066" stroke-width="2"/>
+    <circle cx="400" cy="225" r="110" fill="none" stroke="#d9a066" stroke-width="1" stroke-dasharray="4 4"/>
+    <line x1="200" y1="225" x2="600" y2="225" stroke="#d9a066" stroke-width="1.5"/>
+    <line x1="400" y1="50" x2="400" y2="400" stroke="#d9a066" stroke-width="1"/>
   </g>
   <!-- HUD avionique & graduations -->
-  <path d="M340 225 L370 225 L380 235 L400 215 L420 235 L430 225 L460 225" fill="none" stroke="#45d6e8" stroke-width="3"/>
-  <rect x="330" y="70" width="140" height="28" rx="6" fill="#0b1728" stroke="#45d6e8" stroke-width="1.5"/>
-  <text x="400" y="89" fill="#45d6e8" font-family="monospace" font-size="14" text-anchor="middle" font-weight="bold">HDG 084° • ALT 4500 FT</text>
+  <path d="M340 225 L370 225 L380 235 L400 215 L420 235 L430 225 L460 225" fill="none" stroke="#d9a066" stroke-width="3"/>
+  <rect x="330" y="70" width="140" height="28" rx="6" fill="#141610" stroke="#d9a066" stroke-width="1.5"/>
+  <text x="400" y="89" fill="#d9a066" font-family="monospace" font-size="14" text-anchor="middle" font-weight="bold">HDG 084° • ALT 4500 FT</text>
   <!-- Badge Roblox Studio -->
   <g transform="translate(680, 30)">
-    <rect x="0" y="0" width="90" height="30" rx="6" fill="#e2231a" opacity="0.9"/>
+    <rect x="0" y="0" width="90" height="30" rx="6" fill="#cf6450" opacity="0.9"/>
     <text x="45" y="20" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">ROBLOX</text>
   </g>
-  <text x="50" y="380" fill="#f0f6fc" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="bold">Flight Simulator &amp; Instruments</text>
-  <text x="50" y="410" fill="#9ab3cf" font-family="sans-serif" font-size="15">Functional cockpit instruments coded in Luau on Roblox Studio</text>
+  <text x="50" y="380" fill="#f3eddf" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="bold">Flight Simulator &amp; Instruments</text>
+  <text x="50" y="410" fill="#c2baa8" font-family="sans-serif" font-size="15">Functional cockpit instruments coded in Luau on Roblox Studio</text>
 </svg>
