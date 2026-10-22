@@ -486,56 +486,64 @@ body.cursor-active .cursor-ring.hovered {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* ---------- SÉLECTEUR DE LANGUE ---------- */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.75rem;
+/* ---------- SÉLECTEUR DE LANGUE (intégré à la navbar, à droite) ---------- */
+.nav-lang-item {
+  margin-left: 0.15rem;
+  padding-left: 1.6rem;
+  border-left: 1px solid var(--border-subtle);
 }
 
-.lang-toggle {
+.lang-switch {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.35rem 0.55rem;
-  background: transparent;
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
+  gap: 0.45rem;
+}
+
+.lang-option {
+  position: relative;
+  padding: 0.25rem 0 0.35rem;
+  background: none;
+  border: none;
   color: var(--text-muted);
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-}
-
-.lang-toggle:hover {
-  border-color: var(--accent-cyan);
-  color: var(--text-main);
-  background: rgba(69, 214, 232, 0.06);
-}
-
-.lang-icon {
-  color: var(--text-muted);
-  transition: color 0.2s ease;
-}
-
-.lang-toggle:hover .lang-icon {
-  color: var(--accent-cyan);
-}
-
-.lang-code {
+  letter-spacing: 0.12em;
+  line-height: 1;
   opacity: 0.55;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.lang-code.is-active {
+.lang-option::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent-cyan);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.lang-option:hover {
+  color: var(--text-main);
   opacity: 1;
+}
+
+.lang-option.is-active {
   color: var(--accent-cyan);
+  opacity: 1;
+  text-shadow: 0 0 12px rgba(69, 214, 232, 0.45);
+}
+
+.lang-option.is-active::after {
+  transform: scaleX(1);
 }
 
 .lang-sep {
+  font-size: 0.8rem;
   opacity: 0.3;
 }
 
@@ -544,12 +552,12 @@ body.cursor-active .cursor-ring.hovered {
     display: none;
   }
 
-  .header-actions {
+  .nav-list {
     gap: 1rem;
   }
 
-  .nav-list {
-    gap: 1.25rem;
+  .nav-lang-item {
+    padding-left: 1rem;
   }
 }
 
@@ -589,6 +597,22 @@ body.cursor-active .cursor-ring.hovered {
 
   .nav-link::after {
     display: none;
+  }
+
+  .nav-lang-item {
+    margin: 0.5rem 0 0;
+    padding: 0.75rem 0 0;
+    border-left: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .lang-option {
+    padding: 0.5rem 0.35rem 0.55rem;
+    font-size: 0.95rem;
+  }
+
+  .lang-sep {
+    font-size: 0.95rem;
   }
 }
 

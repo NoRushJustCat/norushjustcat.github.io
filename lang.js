@@ -27,7 +27,9 @@
   // nécessaires ici (le HTML ne peut pas servir de secours).
   const DYNAMIC = {
     en: {
-      'lang.switchTo': 'Passer en français',
+      'lang.label': 'Language',
+      'lang.french': 'French',
+      'lang.english': 'English',
       'category.roblox': 'Roblox Studio',
       'category.aviation': 'Aviation Web',
       'category.web': 'Web',
@@ -45,7 +47,9 @@
       'contact.sent': 'Message sent successfully.'
     },
     fr: {
-      'lang.switchTo': 'Switch to English',
+      'lang.label': 'Langue',
+      'lang.french': 'Français',
+      'lang.english': 'Anglais',
       'category.roblox': 'Roblox Studio',
       'category.aviation': 'Aviation Web',
       'category.web': 'Web',
@@ -361,14 +365,19 @@
   }
 
   function updateToggle(lang) {
-    const button = document.getElementById('lang-toggle');
-    if (!button) return;
-    button.querySelectorAll('[data-lang-option]').forEach(el => {
-      el.classList.toggle('is-active', el.getAttribute('data-lang-option') === lang);
+    const group = document.getElementById('lang-toggle');
+    if (!group) return;
+    group.setAttribute('aria-label', t('lang.label'));
+    group.setAttribute('data-current-lang', lang);
+    group.querySelectorAll('[data-lang-option]').forEach(el => {
+      const code = el.getAttribute('data-lang-option');
+      const active = code === lang;
+      el.classList.toggle('is-active', active);
+      el.setAttribute('aria-pressed', active ? 'true' : 'false');
+      const nameKey = (code === 'fr') ? 'lang.french' : 'lang.english';
+      el.setAttribute('aria-label', t(nameKey));
+      el.setAttribute('title', t(nameKey));
     });
-    button.setAttribute('aria-label', t('lang.switchTo'));
-    button.setAttribute('title', t('lang.switchTo'));
-    button.setAttribute('data-current-lang', lang);
   }
 
   function setLanguage(lang) {
@@ -426,9 +435,14 @@
     toggle: toggleLanguage
   };
 
-  const toggleButton = document.getElementById('lang-toggle');
-  if (toggleButton) {
-    toggleButton.addEventListener('click', toggleLanguage);
+  const languageSwitch = document.getElementById('lang-toggle');
+  if (languageSwitch) {
+    languageSwitch.querySelectorAll('[data-lang-option]').forEach(option => {
+      option.addEventListener('click', () => {
+        const code = option.getAttribute('data-lang-option');
+        if (code !== currentLang) setLanguage(code);
+      });
+    });
   }
 
   currentLang = getInitialLanguage();

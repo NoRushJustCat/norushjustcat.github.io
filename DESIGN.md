@@ -137,7 +137,7 @@ Les navigateurs (Chrome, Firefox…) interdisent toute requête vers un fichier 
 ## 9. Bilingue français / anglais
 
 - **Langue par défaut :** anglais. Le HTML de `index.html` est rédigé en anglais.
-- **Bascule :** bouton `FR / EN` dans l'en-tête (`#lang-toggle`). Le choix est mémorisé dans `localStorage` (`norushjustchat-lang`).
+- **Bascule :** sélecteur `FR / EN` intégré à droite de la navbar (`#lang-toggle`), avec sélection directe de la langue. Le choix est mémorisé dans `localStorage` (`norushjustchat-lang`).
 - **Lien direct :** `index.html?lang=fr` ou `index.html?lang=en` force la langue pour la visite.
 - **Textes statiques :** chaque élément traduisible porte `data-i18n="clé"` (ou `data-i18n-html`, `data-i18n-aria-label`, `data-i18n-placeholder`, `data-i18n-title`). Les traductions françaises sont dans `lang.js` (objet `FR`), l'anglais reste dans le HTML.
 - **Textes dynamiques :** `window.PortfolioI18n.t("clé")` (onglets, cartes projets, avis, formulaire). `script.js` écoute l'événement `languagechange` pour régénérer les projets, et la chronologie recalcule sa course horizontale.

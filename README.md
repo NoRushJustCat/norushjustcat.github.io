@@ -1,6 +1,6 @@
 # Portfolio — NoRushJustChat
 
-Mon portfolio bilingue français / anglais (bouton FR / EN dans l'en-tête).
+Mon portfolio bilingue français / anglais (sélecteur FR / EN à droite de la navbar).
 (fait par IA et en cours de construction (notamment les projets))
 
 ## Voir le site

@@ -78,37 +78,32 @@
         <span class="brand-badge">FLIGHT LOG</span>
       </a>
 
-      <div class="header-actions">
-        <!-- Navigation principale -->
-        <nav class="primary-nav" id="primary-nav" aria-label="Main navigation" data-i18n-aria-label="nav.main">
-          <ul class="nav-list">
-            <li class="nav-item"><a href="#about" class="nav-link" data-i18n="nav.about">About</a></li>
-            <li class="nav-item"><a href="#parcours" class="nav-link" data-i18n="nav.journey">Journey</a></li>
-            <li class="nav-item"><a href="#projets" class="nav-link" data-i18n="nav.projects">Projects</a></li>
-            <li class="nav-item"><a href="#competences" class="nav-link" data-i18n="nav.skills">Skills</a></li>
-            <li class="nav-item"><a href="#passions" class="nav-link" data-i18n="nav.interests">Interests</a></li>
-            <li class="nav-item"><a href="#contact" class="nav-link nav-cta" data-i18n="nav.contact">Contact</a></li>
-          </ul>
-        </nav>
+      <!-- Navigation principale -->
+      <nav class="primary-nav" id="primary-nav" aria-label="Main navigation" data-i18n-aria-label="nav.main">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#about" class="nav-link" data-i18n="nav.about">About</a></li>
+          <li class="nav-item"><a href="#parcours" class="nav-link" data-i18n="nav.journey">Journey</a></li>
+          <li class="nav-item"><a href="#projets" class="nav-link" data-i18n="nav.projects">Projects</a></li>
+          <li class="nav-item"><a href="#competences" class="nav-link" data-i18n="nav.skills">Skills</a></li>
+          <li class="nav-item"><a href="#passions" class="nav-link" data-i18n="nav.interests">Interests</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link nav-cta" data-i18n="nav.contact">Contact</a></li>
+          <li class="nav-item nav-lang-item">
+            <!-- Sélecteur de langue FR / EN -->
+            <div class="lang-switch" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" class="lang-option" data-lang-option="fr" aria-pressed="false">FR</button>
+              <span class="lang-sep" aria-hidden="true">/</span>
+              <button type="button" class="lang-option is-active" data-lang-option="en" aria-pressed="true">EN</button>
+            </div>
+          </li>
+        </ul>
+      </nav>
 
-        <!-- Sélecteur de langue FR / EN -->
-        <button type="button" class="lang-toggle" id="lang-toggle" aria-label="Switch to French" title="Switch to French">
-          <svg class="lang-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"></circle>
-            <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path>
-          </svg>
-          <span class="lang-code" data-lang-option="fr">FR</span>
-          <span class="lang-sep" aria-hidden="true">/</span>
-          <span class="lang-code is-active" data-lang-option="en">EN</span>
-        </button>
-
-        <!-- Bouton menu mobile -->
-        <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav" data-i18n-aria-label="nav.openMenu">
-          <span class="toggle-bar"></span>
-          <span class="toggle-bar"></span>
-          <span class="toggle-bar"></span>
-        </button>
-      </div>
+      <!-- Bouton menu mobile -->
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav" data-i18n-aria-label="nav.openMenu">
+        <span class="toggle-bar"></span>
+        <span class="toggle-bar"></span>
+        <span class="toggle-bar"></span>
+      </button>
     </div>
   </header>
 
